@@ -12,7 +12,17 @@ var CONFIG = {
               type: 'STRING',
               completed: 'INTEGER DEFAULT 0',
               created_at: 'DATETIME',
-              modified_at: 'DATETIME',
+              modified_at: 'DATETIME'
+            }
+        },
+        {
+            name: 'list_item',
+            fields:{
+                id: 'INTEGER PRIMARY KEY',
+                list: 'INTEGER NOT NULL',
+                product: 'INTEGER NOT NULL',
+                quantity : 'INTEGER DEFAULT 0',
+                dirty : 'INTEGER DEFAULT 0'
             }
         },
         {
@@ -20,11 +30,18 @@ var CONFIG = {
             fields:{
                 id: 'INTEGER PRIMARY KEY',
                 name: 'TEXT',
+                category: 'INTEGER',
                 description: 'TEXT',
-                quantity : 'INTEGER DEFAULT 0',
                 created_at: 'DATETIME',
-                modified_at: 'DATETIME',
-                dirty : 'INTEGER DEFAULT 0',
+                modified_at: 'DATETIME'
+            }
+        },
+        {
+            name: 'category',
+            fields:{
+                id: 'INTEGER PRIMARY KEY',
+                name: 'TEXT',
+                description: 'TEXT'
             }
         }
     ]
