@@ -1,4 +1,5 @@
 TRUCO
+===============
 
 Trazador de rutas de la Compra
 
@@ -10,7 +11,9 @@ Truco es un gestor de listas de la compra. Además, te indica la mejor ruta depe
 Creado por:
 ===============
 Antonio Castillo Lora: @kamuisaeba
+
 Alejandro Martín Medina
+
 Síguenos en:
 ===============
 @trucocusl
