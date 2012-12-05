@@ -1,0 +1,12 @@
+servidor rest:
+restler?
+express?
+
+
+base de datos:
+¿couchDB?
+¿MySQL?
+
+test:
+node-unit para unit-test
+expresso
