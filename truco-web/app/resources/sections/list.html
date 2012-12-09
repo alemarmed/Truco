@@ -1,13 +1,34 @@
-    <section id="list" data-transition="slide" >
-        <header data-title="truco-web/">
-        </header>
-
-        <article id="main-article" class="list indented scroll">
-                <li>Lista1</li>
-                <li>Lista2</li>
-                <li>Lista3</li>
-                <li>Lista4</li>
-                <li>Lista5</li>       
-        </article>
-
-    </section>
+<section id="list" data-transition="slide" >
+    <header data-title="List" >
+        <nav class="left box">
+            <a href="#back" data-router="section" data-icon="left"></a>
+            <a href="#menu_big" data-router="aside" data-icon="menu"></a>
+        </nav>    
+    </header>
+    <nav class="groupbar">
+        <a href="#current_lists" data-icon="check" data-router="article" class="current"></a>
+        <a href="#done_lists" data-icon="clock" data-router="article"></a>
+    </nav>
+    <article id="current_lists" class="list indented scroll">
+        <li>Lista1<div class="right" data-count="10"></div></li>
+        <li>Lista2</li>
+        <li>Lista3</li>       
+        <li>Lista4<div class="right" data-count="10"></div></li>
+        <li>Lista5</li>
+        <li>Lista6</li>  
+        <li>Lista7<div class="right" data-count="10"></div></li>
+        <li>Lista8</li>
+        <li>Lista9</li>  
+    </article>
+    <article id="done_lists" class="list indented scroll">
+        <li>Lista1<div class="right" data-count="10"></div></li>
+        <li>Lista2</li>
+        <li>Lista3</li>       
+        <li>Lista4<div class="right" data-count="10"></div></li>
+        <li>Lista5</li>
+        <li>Lista6</li>  
+        <li>Lista7<div class="right" data-count="10"></div></li>
+        <li>Lista8</li>
+        <li>Lista9</li>  
+    </article>
+</section>

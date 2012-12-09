@@ -16,34 +16,34 @@
     <!-- iPhone -->
     <link href="http://lungo.tapquo.com/resources/icon-57.png" sizes="57x57" rel="apple-touch-icon">
     <link href="http://lungo.tapquo.com/resources/startup-image-320x460.png" media="(device-width: 320px) and (device-height: 480px)
-             and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image">
+    and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image">
 
     <!-- iPhone (Retina) -->
     <link href="http://lungo.tapquo.com/resources/icon-114.png" sizes="114x114" rel="apple-touch-icon">
     <link href="http://lungo.tapquo.com/resources/startup-image-640x920.png" media="(device-width: 320px) and (device-height: 480px)
-             and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+    and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
 
     <!-- iPhone 5 -->
     <link href="http://lungo.tapquo.com/resources/startup-image-640x1096.png" media="(device-width: 320px) and (device-height: 568px)
-             and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+    and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
 
     <!-- iPad -->
     <link href="http://lungo.tapquo.com/resources/icon-72.png" sizes="72x72" rel="apple-touch-icon">
     <link href="http://lungo.tapquo.com/resources/startup-image-768x1004.png" media="(device-width: 768px) and (device-height: 1024px)
-             and (orientation: portrait)
-             and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image">
+    and (orientation: portrait)
+    and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image">
     <link href="http://lungo.tapquo.com/resources/startup-image-748x1024.png" media="(device-width: 768px) and (device-height: 1024px)
-             and (orientation: landscape)
-             and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image">
+    and (orientation: landscape)
+    and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image">
 
     <!-- iPad (Retina) -->
     <link href="http://lungo.tapquo.com/resources/icon-144.png" sizes="144x144" rel="apple-touch-icon">
     <link href="http://lungo.tapquo.com/resources/startup-image-1536x2008.png" media="(device-width: 768px) and (device-height: 1024px)
-             and (orientation: portrait)
-             and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+    and (orientation: portrait)
+    and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
     <link href="http://lungo.tapquo.com/resources/startup-image-1496x2048.png" media="(device-width: 768px) and (device-height: 1024px)
-             and (orientation: landscape)
-             and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+    and (orientation: landscape)
+    and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
 
     <!-- Lungo - Stylesheets -->
     <link rel="stylesheet" href="components/lungo/lungo.css">
@@ -57,64 +57,37 @@
     <article class="indented splash">
         <form class="rounded">
             <img src="components/static/truco.png">
-            <input type="text" placeholder="Your username" id="txt-signup-name" value="">
-            <input type="password" placeholder="Your password" id="txt-signup-password" value="">
-            <a href="#list" data-router="section" class="button blue big" data-icon="checkmark" data-icon="user">Login</a>
+            <input type="text" placeholder="Your username" id="txt_username" value="">
+            <input type="password" placeholder="Your password" id="txt_password" value="">
+            <a href="#main" data-router="section" class="button blue big" data-icon="checkmark" data-icon="user">Login</a>
             <a href="#register" data-router="section" class="button big" data-icon="left">Register</a>
         </form>
     </article> 
 </section>
-    <section id="list" data-transition="slide" >
-        <header data-title="truco-web/" >
-            <a href="#splash" data-router="section" data-icon="user " class="left"></a>
-            <a href="#newList" data-router="section" data-icon="plus " class="right"></a>
+<!-- Lungo - Dependencies -->
+<script src="components/quojs/quo.js"></script>
+<script src="components/lungo/lungo.js"></script>
+<script src="components/monocle/monocle.js"></script>
+<!-- Lungo - Sandbox App -->
+<script>
+Lungo.init({
+    name: 'TRuCo',
+    verion: '0.0.1',
+    resources :
+    [
+    'app/resources/asides/home_menu_big.html',
 
-        </header>
-
-        <article id="myList" class="list indented scroll">
-                <li>Lista1</li>
-                <li>Lista2</li>
-                <li>Lista3</li>       
-        </article>
-
-    </section>
-    <section id="newList" data-transition="slide">
-        <header data-title="Nueva Lista" data-back="home"></header>
-        <article class="list">
-            <ul class="form">
-                <li>
-                    <input type="text" name="list_name" placeholder="Nombre">
-                </li>
-                <li>
-                    <textarea placeholder="Describe la lista"></textarea>
-                </li>
-                <li>
-                    <a href="#list" data-action="saveList" data-icon="save" data-label="Save" class="button big green"></a>
-                </li>
-            </ul>
-        </article>
-    </section>
-    <!-- Lungo - Dependencies -->
-    <script src="components/quojs/quo.js"></script>
-    <script src="components/lungo/lungo.js"></script>
-    <script src="components/monocle/monocle.js"></script>
-    <script src="app/monocle/Contoller/build/listCtrl.js"></script>
-    <!-- Lungo - Sandbox App -->
-    <script>
-        Lungo.init({
-            name: 'truco-web/',
-            verion: '0.0.1',
-            /*
-            resources :
-            [
-            'app/sections/list.html',
-            'app/sections/listDetail.html',
-            'app/sections/product.html',
-            'app/sections/register.html',
-            'app/aside/aside.html'
-            ]
-            */
-        });
-    </script>
-</body>t
+    'app/resources/sections/main.html', /* Sección ppal de la aplicación.. pantalla inicio*/
+    'app/resources/sections/list.html', /* Section para mostrar las listas actuales de la app*/
+    'app/resources/sections/list_detail.html',/*Section para controlar una lista concreta*/
+    'app/resources/sections/product.html',/* Section formulario creación edición de un producto de una lista determinada*/
+    'app/resources/sections/product_list.html',/*Section para ver los productos de una lista dada */   
+    'app/resources/sections/register.html', /* Seccion de registro*/  
+     'app/resources/sections/settings.html',
+    'app/resources/sections/about.html',
+    'app/resources/sections/help.html',
+    ]
+});
+</script>
+</body>
 </html>
