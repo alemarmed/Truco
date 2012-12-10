@@ -13,18 +13,31 @@
     }
 
     ListCtrller.prototype.events = {
-      "tap li": "showLista"
+      "swipeLeft article#current_lists li": "toDoneList",
+      "swipeRight article#done_lists li": "toCurrentList",
+      "hold li": "showListOptions"
     };
 
-    ListCtrller.prototype.showLista = function(event) {
-      console.log(event);
-      return alert("yeaahh!!!");
+    ListCtrller.prototype.toDoneList = function(event) {
+      return Lungo.Router.article("list", "done_lists");
+    };
+
+    ListCtrller.prototype.toCurrentList = function(event) {
+      return Lungo.Router.article("list", "current_lists");
+    };
+
+    ListCtrller.prototype.showListOptions = function(event) {
+      preventDefault();
+      Lungo.Router.aside('list', 'list_options_mini');
+      return Lungo.dom('#list_options_mini').show();
     };
 
     return ListCtrller;
 
   })(Monocle.Controller);
 
-  __Controller.NewList = new ListCtrller("article#myList");
+  __Controller.list = new ListCtrller("section#list");
+
+  __Controller.done = new ListCtrller("section#list ");
 
 }).call(this);

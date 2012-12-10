@@ -76,7 +76,7 @@ Lungo.init({
     resources :
     [
     'app/resources/asides/home_menu_big.html',
-
+    'app/resources/asides/list_options_mini',
     'app/resources/sections/main.html', /* Sección ppal de la aplicación.. pantalla inicio*/
     'app/resources/sections/list.html', /* Section para mostrar las listas actuales de la app*/
     'app/resources/sections/list_detail.html',/*Section para controlar una lista concreta*/
@@ -89,5 +89,7 @@ Lungo.init({
     ]
 });
 </script>
+<!-- Llamadas a las funciones coffeescript-->
+<script src="app/monocle/Controller/build/listCtrl.js"></script>
 </body>
 </html>
