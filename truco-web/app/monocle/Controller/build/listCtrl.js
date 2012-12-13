@@ -13,9 +13,10 @@
     }
 
     ListCtrller.prototype.events = {
-      "swipeLeft article#current_lists li": "toDoneList",
-      "swipeRight article#done_lists li": "toCurrentList",
-      "hold li": "showListOptions"
+      "swipeLeft article#current_lists": "toDoneList",
+      "swipeRight article#done_lists": "toCurrentList",
+      "hold li": "showListOptions",
+      "tap li": "showList"
     };
 
     ListCtrller.prototype.toDoneList = function(event) {
@@ -26,10 +27,14 @@
       return Lungo.Router.article("list", "current_lists");
     };
 
+    ListCtrller.prototype.showList = function(event) {
+      return Lungo.Router.section('list_detail');
+    };
+
     ListCtrller.prototype.showListOptions = function(event) {
-      preventDefault();
+      console.log($$('#list_options_mini'));
       Lungo.Router.aside('list', 'list_options_mini');
-      return Lungo.dom('#list_options_mini').show();
+      return Lungo.Notification.success("Success", "Successful operation", "check", 7);
     };
 
     return ListCtrller;
