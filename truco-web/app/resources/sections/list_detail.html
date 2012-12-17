@@ -1,17 +1,29 @@
 <section id="list_detail" data-transition="slide">
-	<header data-title="Nueva Lista" data-back="home"></header>
+	<!-- Añadir class="extended" cuando se pulse un fila de la lista-->
+	<header data-title="Detalles lista1" data-back="home" >
+		<nav class="right box">
+			<a href="#new_list" data-router="section" data-icon="pencil" class="articblue"></a>             
+			<a href="#new_list" data-router="section" data-icon="plus" class="articblue"></a>  
+		</nav>
+	</header>
 	<article class="list">
-		<form>
 		<ul>
 			<li>
-				<input type="text" placeholder="Nombre de la lista" id="list_name" value="">
-				<textarea placeholder="Describe la lista" id="list_description"></textarea>
+				<form  data-search="Type your search..."></form>                
 			</li>
 			<li>
-				<a href="#list" data-action="saveList" data-icon="check" data-label="Guardar" class="button big green"></a>
-				<a data-action="cancel" data-icon="cancel" data-label="Cancelar" class="button big red"></a>
+				<strong>
+					producto1
+				</strong>
+				<div class="one row">
+					<div data-icon="star-full" class="one column" style="font-size:10; color: red;"></div>
+					<small data-icon="star" class="one column"></small>
+					<small data-icon="star" class="one column"></small>
+					<small data-icon="star" class="one column"></small>
+					<small data-icon="star" class="one column"></small>
+					<small data-icon="star" class="one column"></small>
+				</div>
 			</li>
 		</ul>
-	</form>
 	</article>
 </section>
