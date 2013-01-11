@@ -1,9 +1,9 @@
 <section id="list_detail" data-transition="slide">
 	<!-- Añadir class="extended" cuando se pulse un fila de la lista-->
-	<header data-title="Detalles lista1" data-back="home" >
+	<header data-title="Detalles Lista1" data-back="home" >
 		<nav class="right box">
-			<a href="#new_list" data-router="section" data-icon="pencil" class="articblue"></a>             
-			<a href="#new_list" data-router="section" data-icon="plus" class="articblue"></a>  
+			<a href="#new_list" data-router="section" data-icon="pencil" class="articblue"></a>
+			<a href="#product" data-router="section" data-icon="plus" class="articblue"></a>
 		</nav>
 	</header>
 	<article class="list">
@@ -11,18 +11,24 @@
 			<li>
 				<form  data-search="Type your search..."></form>                
 			</li>
-			<li>
-				<strong>
-					producto1
-				</strong>
-				<div class="one row">
-					<div data-icon="star-full" class="one column" style="font-size:10; color: red;"></div>
-					<small data-icon="star" class="one column"></small>
-					<small data-icon="star" class="one column"></small>
-					<small data-icon="star" class="one column"></small>
-					<small data-icon="star" class="one column"></small>
-					<small data-icon="star" class="one column"></small>
-				</div>
+			<li class="selectable yellow">
+				<div class="right bubble blue">x4</div>
+				<strong>Leche Puleva</strong>
+				<small>1 litro</small>
+			</li>
+			<li class="selectable">
+				<div class="right bubble blue">x1</div>
+				<strong>Malla mandarinas</strong>
+			</li>
+			<li class="selectable">
+				<div class="right bubble blue">x2</div>
+				<strong>Huevos</strong>
+				<small>6 unidades</small>
+			</li>
+			<li class="selectable yellow">
+				<div class="right bubble blue">x3</div>
+				<strong>Arroz</strong>
+				<small>1 kilo</small>
 			</li>
 		</ul>
 	</article>

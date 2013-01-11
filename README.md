@@ -12,7 +12,7 @@ Creado por:
 ===============
 Antonio Castillo Lora: @kamuisaeba
 
-Alejandro Martín Medina
+Alejandro Martín Medina: @alexvisio
 
 Síguenos en:
 ===============
