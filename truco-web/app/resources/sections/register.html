@@ -1,11 +1,8 @@
 <section id="register" data-transition="slide">
-    <header data-title="Registrar">
-        <nav class="left box">
-            <a href="#back" data-router="section" data-icon="left"></a>
-            <a href="#menu_big" data-router="aside" data-icon="menu"></a>
-        </nav>    	
+    <header data-title="Registrar">   	
     </header>
-    <article id="register_form">
+    <article id="register_form" class="indented">
+        <form>
         <ul class="form">
         	<li>
             	<input type="text" name="email" placeholder="email" />
@@ -15,7 +12,12 @@
             </li>
             <li>
             	<input type="password" name ="password_check" placeholder="repita su contraseña" />
-            </li
+            </li>
+            <li>
+                <a class="button big green" data-action="register">Registrar</a>
+                <a class="button big red" data-router="section" href="#main">Cancelar</a>
+            </li>
         </ul>
+    </form>
     </article>
 </section>
