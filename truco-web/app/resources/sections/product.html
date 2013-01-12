@@ -17,7 +17,23 @@
         </ul>
     </article>
     <article id="cat1" class="list indented scroll">
-                    <form  data-search="Type your search..."></form>                        
+                    <form  data-search="Type your search..."></form>
+        <ul class="acordion">
+            <li class="father" >
+                <small data-icon="plus" class="right"></small>
+                <h2 class="center">Lista desplegable1</h2>
+            </li>
+            <li class="son">Ob1</li>
+            <li class="son">Ob2</li>
+            <li class="son">Ob3</li>
+            <li class="father" >
+                <div class="lightgreen bubble left"><small data-icon="plus" ></small></div>
+                <h2 class="center">Lista desplegable2</h2>
+            </li>
+            <li class="son">Obj4</li>
+            <li class="son">Ob5</li>
+            <li class="son">Ob6</li>
+        </ul>                        
         <ul>
             <li class="dark arrow">Favoritos</li>
             <ul><li>leche</li><li>Lentejas</li></ul>
@@ -47,4 +63,8 @@
     </article>
     <article id="cat2" data-search="green">2</article>
     <article id="cat3">3</article>
+<script type="text/javascript">
+    $$('#product').ready(function(){alert("hola");});
+</script>
 </section>
+

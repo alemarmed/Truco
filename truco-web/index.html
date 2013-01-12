@@ -104,6 +104,38 @@ Lungo.init({
             //type: 'HYBRID',
             center: _from
         });
+
+
+$$('.father').tap(function()
+{
+    console.info(this); 
+    if ($$(this).hasClass('active'))
+    {
+        console.info("Desactivando desplegable");
+        $$(this).find('small span').removeClass('minus'); 
+        $$(this).find('small span').addClass('plus'); 
+    }
+    else
+    {
+        console.info("Activando desplegable");
+        $$(this).find('small span').removeClass('plus'); 
+        $$(this).find('small span').addClass('minus');
+    }
+    $$(this).toggleClass('active');
+    $$(this).toggleClass('dark');
+    var current = this;
+    var trick = false;
+    $$('.acordion li').each(function(){
+        if ($$(this).hasClass('father') && $$(this).hasClass('active')){
+            trick=true;
+        }else if ($$(this).hasClass('father')){
+            trick = false;
+        }
+        else if ($$(this).hasClass('son') && trick){
+            $$(this).hide();
+        }
+    });
+});
 </script>
 <!-- Llamadas a las funciones coffeescript-->
 <script src="app/monocle/Controller/build/listCtrl.js"></script>
