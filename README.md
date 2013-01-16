@@ -1,7 +1,9 @@
-![Logo de TRUCO](http://trucocusl.files.wordpress.com/2012/04/truco9.png?w=150&h=57 "Logo de TRUCO") **T**razador de **RU**tas de la **CO**mpra
+![Logo de TRUCO](http://trucocusl.files.wordpress.com/2012/04/truco9.png?w=150&h=57 "Logo de TRUCO") 
 
 ¿Qué es Truco?
 --------------
+
+TRUCO: **T**razador de **RU**tas de la **CO**mpra
 
 Truco es un gestor de listas de la compra. Además, te indica la mejor ruta dependiendo la posición donde desees hacer la compra.
 
@@ -26,5 +28,5 @@ Esta es nuestra [lista de tareas] (https://github.com/alexvisio/Truco/issues?mil
 Licencia
 --------
 
-Por favor, lee el fichero `LICENCIA`
+Por favor, lee el fichero LICENCIA.
 
