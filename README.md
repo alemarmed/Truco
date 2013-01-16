@@ -1,5 +1,5 @@
 TRUCO
-===============
+=====
 
 **T**razador de **RU**tas de la **CO**mpra
 
@@ -8,18 +8,18 @@ TRUCO
 
 Truco es un gestor de listas de la compra. Además, te indica la mejor ruta dependiendo la posición donde desees hacer la compra.
 
-Creado por:
+Creadores
 -----------
 
 * Antonio Castillo Lora: [@kamuisaeba] (https://twitter.com/kamuisaeba)
 
 * Alejandro Martín Medina: [@alexvisio] (https://twitter.com/alexvisio)
 
-Síguenos en:
-------------
+Síguenos
+---------
 
-* Twitter [@trucocusl] (https://twitter.com/trucocusl)
-* Blog [http://trucocusl.wordpress.com] (http://trucocusl.wordpress.com)
+* Twitter: [@trucocusl] (https://twitter.com/trucocusl)
+* Blog: [http://trucocusl.wordpress.com] (http://trucocusl.wordpress.com)
 
 Te gusta TRUCO, ayudanos! :)
 ----------------------------
