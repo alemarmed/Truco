@@ -23,7 +23,7 @@ Síguenos
 Te gusta TRUCO, ayudanos! :)
 ----------------------------
 
-Esta es nuestra [lista de tareas] (https://github.com/alexvisio/Truco/issues?milestone=1&state=open) pendientes. Seguro que puedes aportar algo ¡ animate !.
+Visita nuestra [lista de tareas] (https://github.com/alexvisio/Truco/issues?milestone=1&state=open) pendientes. Seguro que puedes aportar algo ¡ animate !.
 
 Licencia
 --------
