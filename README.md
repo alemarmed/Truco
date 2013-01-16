@@ -20,7 +20,7 @@ Síguenos
 * Twitter: [@trucocusl] (https://twitter.com/trucocusl)
 * Blog: [http://trucocusl.wordpress.com] (http://trucocusl.wordpress.com)
 
-Te gusta TRUCO, ayudanos! :)
+Te gusta TRUCO, ayúdanos! :)
 ----------------------------
 
 Visita nuestra [lista de tareas] (https://github.com/alexvisio/Truco/issues?milestone=1&state=open) pendientes. Seguro que puedes aportar algo ¡ animate !.
