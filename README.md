@@ -10,7 +10,7 @@ Truco es un gestor de listas de la compra. Además, te indica la mejor ruta depe
 Creadores
 -----------
 
- Antonio Castillo Lora: [@kamuisaeba] (https://twitter.com/kamuisaeba)
+* Antonio Castillo Lora: [@kamuisaeba] (https://twitter.com/kamuisaeba)
 
 * Alejandro Martín Medina: [@alexvisio] (https://twitter.com/alexvisio)
 
