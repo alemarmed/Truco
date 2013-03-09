@@ -64,14 +64,20 @@
         </form>
     </article> 
 </section>
+
+<!-- i18n support -->
+<script src="components/i18n/i18next-1.6.0.js"></script>
+
 <!-- Lungo - Dependencies -->
 <script src="components/quojs/quo.js"></script>
 <script src="components/lungo/lungo.js"></script>
 <script src="components/monocle/monocle.js"></script>
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-    <script src="components/lungo/sugars/GMap/lungo.sugar.gmap.js"></script>
-    <script src="components/lungo/sugars/GMap/lungo.sugar.gmap.interface.js"></script>
-    <script src="components/lungo/sugars/GMap/lungo.sugar.gmap.route.js"></script>
+
+<!-- Google map integration -->    
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script src="components/lungo/sugars/GMap/lungo.sugar.gmap.js"></script>
+<script src="components/lungo/sugars/GMap/lungo.sugar.gmap.interface.js"></script>
+<script src="components/lungo/sugars/GMap/lungo.sugar.gmap.route.js"></script>
 
 <!-- Lungo - Sandbox App -->
 <script>
@@ -90,21 +96,67 @@ Lungo.init({
     'app/resources/sections/product.html',/* Section formulario creación edición de un producto de una lista determinada*/
     'app/resources/sections/product_list.html',/*Section para ver los productos de una lista dada */   
     'app/resources/sections/register.html', /* Seccion de registro*/  
-     'app/resources/sections/settings.html',
+    'app/resources/sections/settings.html',
     'app/resources/sections/about.html',
     'app/resources/sections/help.html',
     'app/resources/sections/map.html',
+<<<<<<< HEAD
+
+
+    'app/resources/sections/traduccion.html',
     ]
+=======
+    ],
+>>>>>>> 753bc64b2c292cd4c108d6e9d1aa32ff130850e0
 });
-        var _from = { latitude: 59.32522, longitude: 18.07002 };
-        var _to = { latitude: 59.327383, longitude: 18.06747 };
-        Lungo.Sugar.GMap.init({
+        var _from = { latitude: 37.185211, longitude: -3.59808 };
+        var _to = { latitude: 37.185221, longitude: -3.59828 };
+        var _mipos={latitude: 0, longitude: 0 };//mi posicion
+        
+
+$$('#show_map').tap(function(){
+	
+	
+ Lungo.Sugar.GMap.init({
             el: '#map',
             zoom: 14,
             //type: 'HYBRID',
             center: _from
         });
 
+var pinRed = {url: 'components/static/pushpin-red.png',
+            size: {x: 32, y: 39},
+            anchor: {x: 8, y: 34}
+                }
+
+
+
+Lungo.Sugar.GMap.addMarker(_from,pinRed,false);
+
+geoposicion(_mipos[0],_mipos[1]);
+ 
+});
+
+var geoposicion = function (longitude,latitude){
+        if (longitude && latitude){
+            _mipos.latitude = latitude;
+            _mipos.longitude = longitude;
+        }
+        else{
+            if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        _mipos.latitude = position.coords.latitude;
+                        _mipos.longitude = position.coords.longitude;
+                        var pinBlue = {url: 'components/static/pushpin-blue.png',
+									   size: {x: 32, y: 39},
+									   anchor: {x: 8, y: 34}
+						}
+						Lungo.Sugar.GMap.addMarker(_mipos,pinBlue,false);
+                    });
+            }
+            else {alert("Imposible Geolocalizar");}
+        }
+    };
 
 $$('.father').tap(function()
 {
