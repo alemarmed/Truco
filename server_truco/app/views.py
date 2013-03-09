@@ -2,7 +2,7 @@
 from django.template.context import RequestContext
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, render_to_response
-
+from app.models import *
 
 def home(request):
 	template_name ='home.html'
@@ -16,7 +16,7 @@ def list_stores(request,id=None):
 	"""
 	List all store from a customer User
 	"""
-	stores = Stores.objects.filter(owners__id__exact=id)
+	stores = Store.objects.all()
 	template = "list_stores.html"
 	return render_to_response(template, {'stores': stores})
 
