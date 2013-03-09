@@ -12,11 +12,13 @@ def home(request):
 
 
 #@login_required
-def list_stores(request):
+def list_stores(request,id=None):
 	"""
 	List all store from a customer User
 	"""
-	pass
+	stores = Stores.objects.filter(owners__id__exact=id)
+	template = "list_stores.html"
+	return render_to_response(template, {'stores': stores})
 
 
 #@login_required

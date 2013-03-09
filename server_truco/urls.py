@@ -7,7 +7,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'app.views.home', name='home'),
-    url(r'^my-stores$', "app.views.list_stores", name="list_stores"),
+    url(r'^my-stores/(?P<id>\w+)/$', "app.views.list_stores", name="list_stores"),
     url(r'^store/(?P<id>\w+)/', "app.views.store_form", name="store_form"),
     url(r'^store/new/$', "app.views.store_form", name="new_store"),
 
