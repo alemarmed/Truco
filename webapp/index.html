@@ -94,19 +94,29 @@ Lungo.init({
     'app/resources/sections/about.html',
     'app/resources/sections/help.html',
     'app/resources/sections/map.html',
-    ]
+    ],
 });
-        var _from = { latitude: 59.32522, longitude: 18.07002 };
-        var _to = { latitude: 59.327383, longitude: 18.06747 };
+        var _from = { latitude: 37.185211, longitude: -3.59808 };
+        var _to = { latitude: 37.185221, longitude: -3.59828 };
        
 
 $$('#show_map').tap(function(){
+	
+	
  Lungo.Sugar.GMap.init({
             el: '#map',
             zoom: 14,
             //type: 'HYBRID',
             center: _from
         });
+
+var test = {url: 'components/static/pushpin-red.png',
+            size: {x: 32, y: 39},
+            anchor: {x: 8, y: 34}
+                }
+
+Lungo.Sugar.GMap.addMarker(_from,test,false);
+ 
 });
 
 
