@@ -98,7 +98,8 @@ Lungo.init({
 });
         var _from = { latitude: 37.185211, longitude: -3.59808 };
         var _to = { latitude: 37.185221, longitude: -3.59828 };
-       
+        var _mipos={latitude: 0, longitude: 0 };//mi posicion
+        
 
 $$('#show_map').tap(function(){
 	
@@ -110,15 +111,39 @@ $$('#show_map').tap(function(){
             center: _from
         });
 
-var test = {url: 'components/static/pushpin-red.png',
+var pinRed = {url: 'components/static/pushpin-red.png',
             size: {x: 32, y: 39},
             anchor: {x: 8, y: 34}
                 }
 
-Lungo.Sugar.GMap.addMarker(_from,test,false);
+
+
+Lungo.Sugar.GMap.addMarker(_from,pinRed,false);
+
+geoposicion(_mipos[0],_mipos[1]);
  
 });
 
+var geoposicion = function (longitude,latitude){
+        if (longitude && latitude){
+            _mipos.latitude = latitude;
+            _mipos.longitude = longitude;
+        }
+        else{
+            if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        _mipos.latitude = position.coords.latitude;
+                        _mipos.longitude = position.coords.longitude;
+                        var pinBlue = {url: 'components/static/pushpin-blue.png',
+									   size: {x: 32, y: 39},
+									   anchor: {x: 8, y: 34}
+						}
+						Lungo.Sugar.GMap.addMarker(_mipos,pinBlue,false);
+                    });
+            }
+            else {alert("Imposible Geolocalizar");}
+        }
+    };
 
 $$('.father').tap(function()
 {
