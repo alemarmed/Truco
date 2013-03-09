@@ -98,12 +98,16 @@ Lungo.init({
 });
         var _from = { latitude: 59.32522, longitude: 18.07002 };
         var _to = { latitude: 59.327383, longitude: 18.06747 };
-        Lungo.Sugar.GMap.init({
+       
+
+$$('#show_map').tap(function(){
+ Lungo.Sugar.GMap.init({
             el: '#map',
             zoom: 14,
             //type: 'HYBRID',
             center: _from
         });
+});
 
 
 $$('.father').tap(function()
