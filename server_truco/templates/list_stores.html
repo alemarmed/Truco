@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}{% trans "This is the title." %}{% endblock %}
+
+{% block heading %}{% trans Heading %}{% endblock %}
+
+{% block content %}
+   <ul>
+       {% for store in stores %}
+       <li>{{ store.name|capfirst }}</li>
+       {% endfor %}
+   </ul>
+{% endblock %}
