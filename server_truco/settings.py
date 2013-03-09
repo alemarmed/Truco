@@ -118,6 +118,14 @@ TEMPLATE_DIRS = (
     PROJECT_ROOT + '/templates',
 )
 
+#Settings For registration
+ACCOUNT_ACTIVATION_DAYS=7
+EMAIL_HOST='localhost'
+EMAIL_PORT=1023
+EMAIL_HOST_USER='username'
+EMAIL_HOST_PASSWORD='password'
+
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -130,6 +138,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'south',
+    'registration',
 )
 
 # A sample logging configuration. The only tangible logging
