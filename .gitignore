@@ -1,0 +1,3 @@
+# django settings
+/server_truco/settings.py
+*.pyc
