@@ -8,25 +8,56 @@
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCB2zZMe_TBq6GV2DQskbuh1t8_KyQZH-g&sensor=false">
 </script>
 <script type="text/javascript">
+    var initialLocation;
+    var siberia = new google.maps.LatLng(60, 105);
+    var newyork = new google.maps.LatLng(40.69847032728747, -73.9514422416687);
+    var browserSupportFlag =  new Boolean();
+
     function initialize() {
-        var mapOptions = {
-            center: new google.maps.LatLng(-34.397, 150.644),
-            zoom: 8,
+        var myOptions = {
+            zoom: 6,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        var map = new google.maps.Map(document.getElementById("map_canvas"),
-                                      mapOptions);
+        var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+        // Try W3C Geolocation (Preferred)
+        if(navigator.geolocation) {
+            browserSupportFlag = true;
+            navigator.geolocation.getCurrentPosition(function(position) {
+                initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+                map.setCenter(initialLocation);
+            }, function() {
+                handleNoGeolocation(browserSupportFlag);
+            });
+        }
+        // Browser doesn't support Geolocation
+        else {
+            browserSupportFlag = false;
+            handleNoGeolocation(browserSupportFlag);
+        }
+
+        function handleNoGeolocation(errorFlag) {
+            if (errorFlag == true) {
+                alert("Geolocation service failed.");
+                initialLocation = newyork;
+            } else {
+                alert("Your browser doesn't support geolocation. We've placed you in Siberia.");
+                initialLocation = siberia;
+            }
+            map.setCenter(initialLocation);
+        }
     }
 </script>
 {% endblock %}
 
 {% block header %}
-    Insertar el logotipo aquí
+    <img style="float: right" src="{{STATIC_URL}}img/truco.png" />
+    <br/><b>TRAZADOR DE RUTAS DE COMPRA</b>
 {% endblock %}
 
 {% block content %}
     <script type="text/javascript">
         $(function() {initialize()});
     </script>
-    <div id="map_canvas" style="width:100%; position: absolute; height:100%"></div>
+    <div id="map_canvas" style="width:90%; margin: 20px; position: absolute; height:80%"></div>
 {% endblock %}

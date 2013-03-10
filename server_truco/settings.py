@@ -143,6 +143,7 @@ INSTALLED_APPS = (
     'south',
 	'registration',
     'app',
+    'gunicorn',
 )
 
 # A sample logging configuration. The only tangible logging
