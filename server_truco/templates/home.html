@@ -1,1 +1,32 @@
-home.html
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Welcome Truco" %}{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript"
+        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCB2zZMe_TBq6GV2DQskbuh1t8_KyQZH-g&sensor=false">
+</script>
+<script type="text/javascript">
+    function initialize() {
+        var mapOptions = {
+            center: new google.maps.LatLng(-34.397, 150.644),
+            zoom: 8,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map_canvas"),
+                                      mapOptions);
+    }
+</script>
+{% endblock %}
+
+{% block header %}
+    Insertar el logotipo aquí
+{% endblock %}
+
+{% block content %}
+    <script type="text/javascript">
+        $(function() {initialize()});
+    </script>
+    <div id="map_canvas" style="width:100%; position: absolute; height:100%"></div>
+{% endblock %}
