@@ -82,7 +82,7 @@ class DefaultBackend(object):
                                      request=request)
         return new_user
 
-    def activate(self, request, activation_key):
+    def activate(self, request, activation_key=None):
         """
         Given an an activation key, look up and activate the user
         account corresponding to that key (if possible).
