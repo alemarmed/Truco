@@ -18,3 +18,8 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('registration.backends.customManager.urls')),
 )
+
+# For serving statics in development
+# more information: http://stackoverflow.com/questions/12800862/django-static-files-under-gunicorn
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+urlpatterns += staticfiles_urlpatterns()

@@ -6,20 +6,21 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>{% block title %}{% endblock %}</title>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <style type="text/css" src="{{ STATIC_URL}}css/base.css" rel="stylesheet" media="screen"></style>
     {% block extrahead %}{% endblock %}
 </head>
 <body id="{% block body_id %}{% endblock %}">
   <div id="body">
     {% block body %}
-      <div class="header">
-        {% block header %}{% endblock %}
+      <div class="header" style="min-height: 80px; background: url('/static/img/header-background.png') repeat-x;">
+          {% block header %}{% endblock %}
       </div>
       <div class="content">
-        {% block content %}{% endblock %}
+          {% block content %}{% endblock %}
       </div>
-        <div class="footer">
-            {% block footer %}{% endblock %}
-        </div>
+      <div class="footer">
+          {% block footer %}{% endblock %}
+      </div>
     {% endblock %}
   </div>
 </body>
