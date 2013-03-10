@@ -1,18 +1,21 @@
-# Create your views here.
+# -*- coding: utf-8 -*-
 from django.template.context import RequestContext
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, render_to_response
 from app.models import *
 
-def home(request):
-	template_name ='home.html'
-	data = {}
-	return render_to_response(template_name, data , context_instance=RequestContext(request))
 
+def home(request):
+	template ='home.html'
+	data = {
+		"count_users" : Consumer.objects.count(),
+		"places" : Localization.objects.all()
+	}
+	return render_to_response(template, data , context_instance=RequestContext(request))
 
 
 #@login_required
-def list_stores(request,id=None):
+def list_stores(request):
 	"""
 	List all store from a customer User
 	"""
@@ -22,7 +25,7 @@ def list_stores(request,id=None):
 
 
 #@login_required
-def store_form(request,id=None):
+def store_form(request,id_store=None):
 	"""
 	Form to create/edit stores from a customer User
 	"""
