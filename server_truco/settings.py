@@ -120,10 +120,12 @@ TEMPLATE_DIRS = (
 
 #Settings For registration
 ACCOUNT_ACTIVATION_DAYS=7
-EMAIL_HOST='localhost'
-EMAIL_PORT=1023
-EMAIL_HOST_USER='username'
-EMAIL_HOST_PASSWORD='password'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'truco.noreply@gmail.com'
+EMAIL_HOST_PASSWORD = 'trucoOtrato'
 
 
 #Actualizar a la vista que sea

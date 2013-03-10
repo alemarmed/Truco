@@ -24,11 +24,12 @@ from django.views.generic import TemplateView
 from registration.views import activate
 from registration.views import register
 from app.forms import MyRegistrationForm
+from django.views.generic.simple import direct_to_template
 
 
 urlpatterns = patterns('',
                        url(r'^activate/complete/$',
-                           TemplateView,
+                           direct_to_template,
                            { 'template': 'registration/activation_complete.html' },
                            name='registration_activation_complete'),
                        # Activation keys get matched by \w+ instead of the more specific
@@ -44,11 +45,11 @@ urlpatterns = patterns('',
                            { 'backend': 'registration.backends.default.DefaultBackend','form_class':MyRegistrationForm },
                            name='registration_register'),
                        url(r'^register/complete/$',
-                           TemplateView,
+                           direct_to_template,
                            { 'template': 'registration/registration_complete.html' },
                            name='registration_complete'),
                        url(r'^register/closed/$',
-                           TemplateView,
+                           direct_to_template,
                            { 'template': 'registration/registration_closed.html' },
                            name='registration_disallowed'),
                        (r'', include('registration.auth_urls')),
