@@ -126,6 +126,9 @@ EMAIL_HOST_USER='username'
 EMAIL_HOST_PASSWORD='password'
 
 
+#Actualizar a la vista que sea
+LOGIN_REDIRECT_URL = "/"
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
