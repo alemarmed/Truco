@@ -19,6 +19,7 @@ class Consumer(User):
 	"""
 	Usuario de la aplicacion movil
 	"""
+
 	birthday = models.DateField(null=True)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
