@@ -5,7 +5,7 @@ from django.contrib.sites.models import Site
 from registration import signals
 from registration.forms import RegistrationForm
 from registration.models import RegistrationProfile
-
+from app.models import Manager
 
 class DefaultBackend(object):
     """
@@ -77,6 +77,12 @@ class DefaultBackend(object):
             site = RequestSite(request)
         new_user = RegistrationProfile.objects.create_inactive_user(username, email,
                                                                     password, site)
+        custom = Manager(user=new_user)
+        custom.birthday = kwargs['birthday']
+        custom.nif = kwargs['nif']
+        import pdb; pdb.set_trace()
+
+        custom.save()
         signals.user_registered.send(sender=self.__class__,
                                      user=new_user,
                                      request=request)

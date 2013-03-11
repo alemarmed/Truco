@@ -1,5 +1,4 @@
-![Logo de TRUCO](http://trucocusl.files.wordpress.com/2012/04/truco9.png?w=150&h=57 "Logo de TRUCO") 
-
+![Logo de TRUCO](./art/truco-final.png "Logo de TRUCO")
 ¿Qué es Truco?
 --------------
 
