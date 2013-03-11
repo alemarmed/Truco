@@ -15,20 +15,21 @@ class Category(models.Model):
 	updated_at = models.DateTimeField(auto_now = True)
 
 
-class Consumer(User):
+class Consumer(models.Model):
 	"""
 	Usuario de la aplicacion movil
 	"""
-
+	user = models.OneToOneField(User)
 	birthday = models.DateField(null=True)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
 
 
-class Manager(User):
+class Manager(models.Model):
 	"""
 	Usuario gestor de establecimientos
 	"""
+	user = models.OneToOneField(User)
 	nif = models.CharField(max_length = 10, help_text =_(u'NIF or passport'), verbose_name =_(u'Personal ID'))
 	birthday = models.DateField(null=True)
 	created_at = models.DateTimeField(auto_now_add = True)

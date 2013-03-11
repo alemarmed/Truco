@@ -4,7 +4,13 @@
 {% block title %}{% trans "This is the title." %}{% endblock %}
 
 {% block content %}
-   <ul>
+{% if user.is_authenticated %}
+  Bienvenido,  {{user.username}}
+ {{user.pk}}
+
+{% else %}
+    <p>Welcome, new user. Please log in.</p>
+{% endif %}   <ul>
        {% for store in stores %}
        <li>{{ store.name|capfirst }}</li>
        {% endfor %}
