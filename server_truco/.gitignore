@@ -1,3 +1,7 @@
 settings.py
 *.pyc
 app/*.pyc
+.settings/*
+.project
+.pydevproject
+*.pyc
