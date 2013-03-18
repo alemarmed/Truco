@@ -10,7 +10,7 @@ urlpatterns = patterns('',
     url(r'^my-stores/$', "app.views.list_stores", name="list_stores"),
     url(r'^store/(?P<id>\w+)/', "app.views.store_form", name="store_form"),
     url(r'^store/new/$', "app.views.store_form", name="new_store"),
-
+    url(r'^login/$', 'app.views.login_view', name='login'),
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

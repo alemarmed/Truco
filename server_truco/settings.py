@@ -131,6 +131,9 @@ EMAIL_HOST_PASSWORD = 'trucoOtrato'
 #Actualizar a la vista que sea
 LOGIN_REDIRECT_URL = "/"
 
+
+
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -176,3 +179,7 @@ LOGGING = {
         },
     }
 }
+
+AUTHENTICATION_BACKENDS = (
+    'backends.MyCustomBackend',
+    )

@@ -80,8 +80,6 @@ class DefaultBackend(object):
         custom = Manager(user=new_user)
         custom.birthday = kwargs['birthday']
         custom.nif = kwargs['nif']
-        import pdb; pdb.set_trace()
-
         custom.save()
         signals.user_registered.send(sender=self.__class__,
                                      user=new_user,

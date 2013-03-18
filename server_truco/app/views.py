@@ -4,7 +4,30 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, render_to_response
 from app.models import *
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
 
+
+def login_view(request):
+	if request.POST:
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(username=username, password=password)
+		if user is not None:
+			if user.is_active:
+				login(request, user)
+				template ='home.html'
+				return render_to_response(template , context_instance=RequestContext(request))
+				# Redirect to a success page.
+			else:
+				messages.error(request, 'Document deleted.')
+		else:
+			messages.error(request, 'Document deleted.')
+	template="registration/login.html"
+	return render_to_response(template, context_instance=RequestContext(request))
+		
+		# Return an 'invalid login' error message.
+		
 
 def home(request):
 	template ='home.html'
@@ -24,7 +47,7 @@ def list_stores(request):
 	#stores = Manager.objects.filter(store__owners__pk=request.user.pk)
 	template = "list_stores.html"
 	stores = []
-	return render_to_response(template, {'stores': stores, 'user':request.user.manager})
+	return render_to_response(template, {'stores': stores, 'user':request.user})
 
 
 #@login_required

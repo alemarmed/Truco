@@ -1,20 +1,25 @@
 {% extends "base.html" %}
 {% load i18n %}
-
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 {% block title %}Acceso{% endblock %}
 
 {% block content %}
-<div class="row">
-    <form action="." method="post">
-        {% csrf_token %}
-        <div class="span4">
-            <table>
-                {{ form.as_p }}
-            </table>
-            <div class="span1">
-            <input type="submit" value="{% trans 'Submit' %}" />
-            </div>
-        </div>
-    </form>
-</div>
+	<form action="/login/" method="post">
+		{% csrf_token %}
+		{% if next %}
+		<input type="hidden" name="next" value="{{ next }}" />
+		{% endif %}
+		username:
+		<input type="text" name="username" value="{{ username}}" /><br />
+		password:
+		<input type="password" name="password" value="" /><br />
+
+		<input type="submit" value="Log In" />
+	</form>
 {% endblock %}
