@@ -127,12 +127,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'truco.noreply@gmail.com'
 EMAIL_HOST_PASSWORD = 'trucoOtrato'
 
-
 #Actualizar a la vista que sea
 LOGIN_REDIRECT_URL = "/"
-
-
-
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -149,7 +145,18 @@ INSTALLED_APPS = (
 	'registration',
     'app',
     'gunicorn',
+
+    # custom admin panel with fluent dashboard
+    'fluent_dashboard',
+    'admin_tools',     # for staticfiles in Django 1.3
+    'admin_tools.theming',
+    'admin_tools.menu',
+    'admin_tools.dashboard'
 )
+
+ADMIN_TOOLS_INDEX_DASHBOARD = 'fluent_dashboard.dashboard.FluentIndexDashboard'
+ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'fluent_dashboard.dashboard.FluentAppIndexDashboard'
+ADMIN_TOOLS_MENU = 'fluent_dashboard.menu.FluentMenu'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -182,4 +189,4 @@ LOGGING = {
 
 AUTHENTICATION_BACKENDS = (
     'backends.MyCustomBackend',
-    )
+)
