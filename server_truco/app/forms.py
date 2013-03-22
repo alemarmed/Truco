@@ -4,6 +4,7 @@ from django import forms
 from registration.forms import RegistrationForm
 from django.utils.translation import ugettext_lazy as _
 from app.models import *
+from django.forms.widgets import Widget, Textarea
 
 
 
@@ -23,3 +24,11 @@ class MyRegistrationForm(RegistrationForm):
 		#return the User model
 		return new_user
 
+class StoreForm(forms.ModelForm):
+	class Meta:
+		model = Store
+		fields = ('name','description')
+ 		widgets = {
+            'description': Textarea(attrs={'cols': 80, 'rows': 20}),
+        	}
+			

@@ -13,7 +13,8 @@ class Category(models.Model):
 	visible = models.BooleanField(default = True)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
-
+	def __unicode__(self):
+		return self.name+" "+self.pk
 
 class Consumer(models.Model):
 	"""
@@ -34,7 +35,8 @@ class Manager(models.Model):
 	birthday = models.DateField(null=True)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
-
+	def __unicode__(self):
+		return self.user.username+" "+str(self.pk)
 
 class Store(models.Model):
 	"""
@@ -45,7 +47,8 @@ class Store(models.Model):
 	owners = models.ManyToManyField(Manager, verbose_name = _(u'Store owners'))
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
-
+	def __unicode__(self):
+		return self.name+" "+str(self.pk)
 
 class Brand(models.Model):
 	"""

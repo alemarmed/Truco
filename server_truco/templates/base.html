@@ -7,6 +7,10 @@
     <title>{% block title %}{% endblock %}</title>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <style type="text/css" src="{{ STATIC_URL}}css/base.css" rel="stylesheet" media="screen"></style>
+    <script src="{{STATIC_URL}}script/jquery.js"/>
+    <script src="{{STATIC_URL}}script/jquery.dataTables.min.js"/>
+    <style type="text/css" src="{{STATIC_URL}}css/jquery.dataTables.css" rel="stylesheet"></style>
+    <style type="text/css" src="{{STATIC_URL}}css/jquery.dataTables_themeroller.css" rel="stylesheet"></style>
     {% block extrahead %}{% endblock %}
 </head>
 <body id="{% block body_id %}{% endblock %}">

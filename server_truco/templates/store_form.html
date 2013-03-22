@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %} 
+
+{% block title %}{% trans "This is the title." %}{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<form action="." method="post">{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
+
+{% else %}
+    <p>Welcome, new user. Please log in.</p>
+{% endif %}   <ul>
+       {% for store in stores %}
+       <li>{{ store.name|capfirst }}</li>
+       {% endfor %}
+   </ul>
+{% endblock %}

@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.template.context import RequestContext
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from app.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from app.forms import StoreForm
 
 
 def login_view(request):
@@ -43,19 +44,44 @@ def list_stores(request):
 	"""
 	List all store from a customer User
 	"""
-
-	#stores = Manager.objects.filter(store__owners__pk=request.user.pk)
+	s = Store.objects.all()
+	for a in s:
+		print a
+		o = a.owners
+		print o
+		
+	manager = Manager.objects.get(user=request.user)
+	stores = manager.store_set.all()
 	template = "list_stores.html"
-	stores = []
 	return render_to_response(template, {'stores': stores, 'user':request.user})
 
 
-#@login_required
+@login_required
 def store_form(request,id_store=None):
-	"""
-	Form to create/edit stores from a customer User
-	"""
-	pass
+	if id_store:
+		s = Store.objects.get(pk=id_store)
+	else:
+		s = None
+	if request.method == 'POST': # If the form has been submitted...
+		form = StoreForm(request.POST,instance=s) # A form bound to the POST data
+		if form.is_valid(): # All validation rules pass
+			# Process the data in form.cleaned_data
+			# ...
+			name = form.cleaned_data['name']
+			description = form.cleaned_data['description']
+			#Getting manager from current user
+			manager = Manager.objects.get(user=request.user)
+			form.save()
+			#store = Store.objects.create(name=name,description=description)
+			if s:
+				manager.store_set.add(s)
+			return HttpResponseRedirect('/store/edit/'+str(s.pk)) # Redirect after POST
+	else:
+		form = StoreForm(instance=s)
+	template='store_form.html'
+	return render(request, template, {
+		'form': form,
+	})
 
 
 #@login_required
