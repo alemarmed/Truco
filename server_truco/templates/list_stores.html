@@ -2,7 +2,11 @@
 {% load i18n %} 
 
 {% block title %}{% trans "This is the title." %}{% endblock %}
-
+<script>
+$(funtion(){
+$('#table_stores').datatable();
+});
+</script>
 {% block content %}
 {% if user.is_authenticated %}
   Bienvenido,  {{user.username}}
@@ -10,9 +14,12 @@
 
 {% else %}
     <p>Welcome, new user. Please log in.</p>
-{% endif %}   <ul>
+{% endif %}   
+<table id="table_stores">
        {% for store in stores %}
-       <li>{{ store.name|capfirst }}</li>
+       <tr>
+       	<td>{{ store.name|capfirst }}</td>
+       </tr>
        {% endfor %}
-   </ul>
+</table>
 {% endblock %}
