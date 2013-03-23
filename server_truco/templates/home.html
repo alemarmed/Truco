@@ -21,29 +21,32 @@
 </style>
 {% endblock %}
 
-{% block header %}
-    <img style="float: right; margin-right: 1%" src="{{STATIC_URL}}img/truco.png" />
-    <h1>Trazador de rutas de compra</h1>
-    <div id="loginForm">
-        <ul>
-            <li><input type="text" /></li>
-            <li><input type="password" /></li>
-            <li><input type="submit" /></li>
-        </ul>
-        <p><a href="#">Regístrese</a></p>
-    </div>
-{% endblock %}
-
 {% block content %}
     <script type="text/javascript">
-        $(function() {initialize()});
+        function resize_map() {
+            var h = $(window).height(),
+                    // TODO no entiendo bien que deberiamos poner aqui
+                    offsetTop = 30; // Calculate the top offset
+            $('#map_canvas').css('height', (h - offsetTop));
+        }
+        $(function() {
+            resize_map(); // set up the right height for the map
+            initialize() // google maps canvas initialization
+        });
+        $(window).resize(resize_map).resize();
     </script>
-    <div class="container">
-        <div id="map_canvas" class="span6" style="max-width:100%; position: absolute; max-height:100%"></div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span4">
+                "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+                    non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            </div>
+            <div class="span8">
+                <div id="map_canvas"></div>
+            </div>
+        </div>
     </div>
-{% if user.is_authenticated %}
-    <p>Welcome, {{ user.username }}. Thanks for logging in.</p>
-{% else %}
-    <p>Welcome, new user. Please log in.</p>
-{% endif %}
 {% endblock %}

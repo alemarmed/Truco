@@ -44,6 +44,13 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </div>
+            <p style="color: whitesmoke; float: right;">
+            {% if user.is_authenticated %}
+                Welcome, {{ user.username }}. Thanks for logging in.
+            {% else %}
+                Welcome, new user. Please log in.
+            {% endif %}
+            </p>
         </div>
     </div>
 </div>
