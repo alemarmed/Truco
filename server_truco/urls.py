@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+import settings
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -22,4 +23,9 @@ urlpatterns = patterns('',
 # For serving statics in development
 # more information: http://stackoverflow.com/questions/12800862/django-static-files-under-gunicorn
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-urlpatterns += staticfiles_urlpatterns()
+from django.conf import settings
+urlpatterns += patterns('', (
+        r'^static/(?P<path>.*)$',
+        'django.views.static.serve',
+        {'document_root': 'static'}
+))

@@ -53,7 +53,7 @@ def list_stores(request):
 	manager = Manager.objects.get(user=request.user)
 	stores = manager.store_set.all()
 	template = "list_stores.html"
-	return render_to_response(template, {'stores': stores, 'user':request.user})
+	return render_to_response(template, {'stores': stores, 'user':request.user},context_instance=RequestContext(request))
 
 
 @login_required
@@ -66,7 +66,7 @@ def store_form(request,id_store=None):
 		form = StoreForm(request.POST,instance=s) # A form bound to the POST data
 		if form.is_valid(): # All validation rules pass
 			# Process the data in form.cleaned_data
-			# ...
+			# ...site
 			name = form.cleaned_data['name']
 			description = form.cleaned_data['description']
 			#Getting manager from current user
