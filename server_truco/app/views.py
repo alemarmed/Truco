@@ -61,7 +61,7 @@ def store_form(request,id_store=None):
 	if id_store:
 		s = Store.objects.get(pk=id_store)
 	else:
-		s = None
+		s=Store()
 	if request.method == 'POST': # If the form has been submitted...
 		form = StoreForm(request.POST,instance=s) # A form bound to the POST data
 		if form.is_valid(): # All validation rules pass

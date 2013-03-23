@@ -27,7 +27,7 @@ class MyRegistrationForm(RegistrationForm):
 class StoreForm(forms.ModelForm):
 	class Meta:
 		model = Store
-		fields = ('name','description')
+		fields = ('name','description','id')
  		widgets = {
             'description': Textarea(attrs={'cols': 80, 'rows': 20}),
         	}

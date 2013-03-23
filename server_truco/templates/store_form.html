@@ -1,20 +1,23 @@
 {% extends "base.html" %}
 {% load i18n %} 
 
-{% block title %}{% trans "This is the title." %}{% endblock %}
+{% block title %}{% trans "Store form" %}{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
 <form action="." method="post">{% csrf_token %}
-{{ form.as_p }}
+<table>
+<tr>
+	<td colspan="2" align="center"><h3>{% trans "Tienda" %}</h3></td>
+</tr>
+	{% for field in form %}
+	<tr>
+		<td width="40%" class="label">{{ field.label_tag }}:</td>
+        <td width="60%" class="extend {% if field.errors %}highlight{% endif %}">
+	       {{ field }}
+        </td>
+    </tr> 
+    {%endfor%}
+</table>
 <input type="submit" value="Submit" />
 </form>
-
-{% else %}
-    <p>Welcome, new user. Please log in.</p>
-{% endif %}   <ul>
-       {% for store in stores %}
-       <li>{{ store.name|capfirst }}</li>
-       {% endfor %}
-   </ul>
 {% endblock %}
