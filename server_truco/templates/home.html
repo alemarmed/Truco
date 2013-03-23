@@ -38,7 +38,9 @@
     <script type="text/javascript">
         $(function() {initialize()});
     </script>
-    <div id="map_canvas" style="width:90%; margin: 20px; position: absolute; height:80%"></div>
+    <div class="container">
+        <div id="map_canvas" class="span6" style="max-width:100%; position: absolute; max-height:100%"></div>
+    </div>
 {% if user.is_authenticated %}
     <p>Welcome, {{ user.username }}. Thanks for logging in.</p>
 {% else %}

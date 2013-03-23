@@ -2,7 +2,13 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>{% block title %}{% endblock %}</title>
+    <title>
+        {% block title %}{% endblock %}
+    </title>
+    <!--IE6-8 support for HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
     <!-- Base CSS -->
     <link type="text/css" href="{{STATIC_URL}}css/base.css" rel="stylesheet" media="screen"/>
     <!-- Bootstrap -->
@@ -11,28 +17,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
     <!-- jquery -->
-    <script src="{{STATIC_URL}}script/jquery.js"></script>
+    <script src="{{STATIC_URL}}js/jquery-1.9.1.min.js"></script>
     <!-- Data tables plugin -->
     <link type="text/css" href="{{STATIC_URL}}dataTable/css/demo_table.css" rel="stylesheet" />
     <link type="text/css" href="{{STATIC_URL}}dataTable/css/jquery.dataTables.css" rel="stylesheet" />
     <link type="text/css" href="{{STATIC_URL}}dataTable/css/jquery.dataTables_themeroller.css" rel="stylesheet" />
     <script src="{{STATIC_URL}}dataTable/js/jquery.dataTables.min.js"></script>
+
     {% block extrahead %}{% endblock %}
 </head>
-<body id="{% block body_id %}{% endblock %}">
-  <div id="body">
-    {% block body %}
-      <div class="header" style="min-height: 80px; background: url('/static/img/header-background.png') repeat-x;">
-          {% block header %}{% endblock %}
-      </div>
-      <div class="content">
-          {% block content %}{% endblock %}
-      </div>
-      <div class="footer">
-          {% block footer %}
-          {% endblock %}
-      </div>
-    {% endblock %}
-  </div>
+
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/">Truco</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class="active"><a href="/">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="messages">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{message.tags}}">
+                <a class="close" data-dismiss="alert">×</a>
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div> <!-- /container -->
+
 </body>
 </html>
