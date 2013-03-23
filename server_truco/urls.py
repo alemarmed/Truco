@@ -17,9 +17,9 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('registration.backends.customManager.urls')),
+    url(r'^admintools/', include('admin_tools.urls')),
 )
 
-# For serving statics in development
-# more information: http://stackoverflow.com/questions/12800862/django-static-files-under-gunicorn
+# Serving statics in DEVELOPMENT
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns += staticfiles_urlpatterns()

@@ -1,3 +1,5 @@
+from django.utils.translation import ugettext_lazy as _
+
 # Django settings for truco_django project.
 import os
 DEBUG = True
@@ -127,12 +129,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'truco.noreply@gmail.com'
 EMAIL_HOST_PASSWORD = 'trucoOtrato'
 
-
 #Actualizar a la vista que sea
 LOGIN_REDIRECT_URL = "/"
-
-
-
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -149,6 +147,14 @@ INSTALLED_APPS = (
     'registration',
     'app',
     'gunicorn',
+
+    #fluent dashboard admin
+    'fluent_dashboard',
+
+    'admin_tools',     # for staticfiles in Django 1.3
+    'admin_tools.theming',
+    'admin_tools.menu',
+    'admin_tools.dashboard',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -182,4 +188,76 @@ LOGGING = {
 
 AUTHENTICATION_BACKENDS = (
     'backends.MyCustomBackend',
-    )
+)
+
+# FLUENT DASHBOARD CONFIGURATION
+
+ADMIN_TOOLS_INDEX_DASHBOARD = 'fluent_dashboard.dashboard.FluentIndexDashboard'
+ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'fluent_dashboard.dashboard.FluentAppIndexDashboard'
+ADMIN_TOOLS_MENU = 'fluent_dashboard.menu.FluentMenu'
+
+FLUENT_DASHBOARD_ICON_THEME = 'oxygen'
+
+#FLUENT_DASHBOARD_APP_ICONS = {
+#    'cms/page': 'internet-web-browser.png',
+#    'auth/user':  'system-users.png',
+#    'auth/group': 'resource-group.png',
+#    'sites/site': 'applications-internet.png',
+#    'google_analytics/analytics': 'view-statistics.png',
+#    'registration/registrationprofile': 'list-add-user.png'
+#}
+
+#FLUENT_DASHBOARD_DEFAULT_ICON = 'unknown.png'
+
+FLUENT_DASHBOARD_DEFAULT_MODULE = 'admin_tools.dashboard.modules.AppList'
+
+FLUENT_DASHBOARD_APP_GROUPS = (
+    (_('CMS'), {
+        'models': (
+            'cms.*',
+            'pages.*',
+            'fiber.*',
+        ),
+        'module': 'CmsAppIconList',
+        'collapsible': False,
+        }),
+    (_('Interactivity'), {
+        'models': (
+            'django.contrib.comments.*',
+            'form_designer.*'
+            'threadedcomments.*',
+            'zinnia.*',
+        ),
+        }),
+    (_('Administration'), {
+        'models': (
+            'django.contrib.auth.*',
+            'django.contrib.sites.*',
+            'google_analytics.*',
+            'registration.*',
+        ),
+        }),
+    (_('Applications'), {
+        'models': ('*',),
+        'module': 'AppList',
+        'collapsible': True,
+        }),
+)
+
+# CMS integration:
+FLUENT_DASHBOARD_CMS_PAGE_MODEL = ('cms', 'page')
+
+FLUENT_DASHBOARD_CMS_APP_NAMES = (
+    '*cms*',  # wildcard match; DjangoCMS, FeinCMS
+    'fiber',  # Django-Fiber
+)
+
+FLUENT_DASHBOARD_CMS_MODEL_ORDER = {
+    'page': 1,
+    'object': 2,
+    'layout': 3,
+    'content': 4,
+    'file': 5,
+    'site': 99
+}
+
