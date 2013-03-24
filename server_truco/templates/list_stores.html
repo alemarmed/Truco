@@ -6,7 +6,16 @@
 {% block content %}
 <script type="text/javascript">
 $(function() {
-    $('#table_stores').dataTable();
+
+  var oTable = $('#table_stores').dataTable( {
+    "aoColumnDefs": [ {
+      "aTargets": [ 0 ],
+      "mRender": function ( type, full ) {
+        return '<a href="'+data+'">Download</a>';
+      }
+    } ]
+  } );    
+
 } );
 </script>
 {% if user.is_authenticated %}
@@ -19,11 +28,14 @@ $(function() {
 <table id="table_stores">
 <thead>
 <th></th>
+<th></th>
+<th></th>
 </thead>
 <tbody>
        {% for store in stores %}
        <tr>
        	<td>{{ store.name|capfirst }}</td>
+       	<td>{{ store.description|capfirst }}</td>
        </tr>
        {% endfor %}
 </tbody>

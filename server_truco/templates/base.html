@@ -5,18 +5,32 @@
     <title>
         {% block title %}{% endblock %}
     </title>
+            <!-- Le styles -->
+            <link href="{{STATIC_URL}}jquery-ui-bootstrap/assets/css/bootstrap.min.css" rel="stylesheet">
+            <link type="text/css" href="{{STATIC_URL}}jquery-ui-bootstrap/css/custom-theme/jquery-ui-1.10.0.custom.css" rel="stylesheet" />
+            <link type="text/css" href="{{STATIC_URL}}jquery-ui-bootstrap/assets/css/font-awesome.min.css" rel="stylesheet" />
+            <!--[if IE 7]>
+            <link rel="stylesheet" href="{{STATIC_URL}}jquery-ui-bootstrap/assets/css/font-awesome-ie7.min.css">
+            <![endif]-->
+            <!--[if lt IE 9]>
+            <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}jquery-ui-bootstrap/css/custom-theme/jquery.ui.1.10.0.ie.css"/>
+            <![endif]-->
+            <link href="{{STATIC_URL}}jquery-ui-bootstrap/assets/css/docs.css" rel="stylesheet">
+            <link href="{{STATIC_URL}}jquery-ui-bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+            <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+            <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+            <![endif]-->
+
+
     <!--IE6-8 support for HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <!-- Base CSS -->
     <link type="text/css" href="{{STATIC_URL}}css/base.css" rel="stylesheet" media="screen"/>
-    <!-- Bootstrap -->
-    <link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <script src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{{STATIC_URL}}bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-    <!-- jquery -->
+     <!-- jquery -->
     <script src="{{STATIC_URL}}js/jquery-1.9.1.min.js"></script>
     <!-- Data tables plugin -->
     <link type="text/css" href="{{STATIC_URL}}dataTable/css/demo_table.css" rel="stylesheet" />
@@ -70,5 +84,11 @@
     {% block content %}{% endblock %}
 </div> <!-- /container -->
 
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{{STATIC_URL}}jquery-ui-bootstrap/assets/js/jquery-1.9.0.min.js" type="text/javascript"></script>
+<script src="{{STATIC_URL}}jquery-ui-bootstrap/assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="{{STATIC_URL}}jquery-ui-bootstrap/assets/js/jquery-ui-1.10.0.custom.min.js" type="text/javascript"></script>
+<script src="{{STATIC_URL}}jquery-ui-bootstrap/assets/js/google-code-prettify/prettify.js" type="text/javascript"></script>
+<script src="{{STATIC_URL}}jquery-ui-bootstrap/assets/js/docs.js" type="text/javascript"></script>
 </body>
 </html>

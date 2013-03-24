@@ -58,21 +58,21 @@ def list_stores(request):
 
 @login_required
 def store_form(request,id_store=None):
+	"""
+	CREATE OR EDIT A STORE
+	"""
 	if id_store:
 		s = Store.objects.get(pk=id_store)
 	else:
 		s=Store()
 	if request.method == 'POST': # If the form has been submitted...
-		form = StoreForm(request.POST,instance=s) # A form bound to the POST data
+		form = StoreForm(request.POST,instance=s) 
 		if form.is_valid(): # All validation rules pass
-			# Process the data in form.cleaned_data
-			# ...site
 			name = form.cleaned_data['name']
 			description = form.cleaned_data['description']
 			#Getting manager from current user
 			manager = Manager.objects.get(user=request.user)
 			form.save()
-			#store = Store.objects.create(name=name,description=description)
 			if s:
 				manager.store_set.add(s)
 			return HttpResponseRedirect('/store/edit/'+str(s.pk)) # Redirect after POST
