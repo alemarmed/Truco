@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load i18n %} 
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -54,6 +55,7 @@
                 <span class="icon-bar"></span>
             </a>
             <a class="brand" href="/">Truco</a>
+ {% if user.is_authenticated %}
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li class="active"><a href="/">Home</a></li>
@@ -62,15 +64,42 @@
                 </ul>
             </div>
             <p style="color: whitesmoke; float: right;">
-            {% if user.is_authenticated %}
                 Welcome, {{ user.username }}. Thanks for logging in.
-            {% else %}
-                Welcome, new user. Please log in.
-            {% endif %}
+                <a href='/accounts/logout'>{% trans 'Salir' %}</a>
             </p>
+{% else%}
+        <ul class="nav pull-right">
+          <li><a href="/users/sign_up">Sign Up</a></li>
+          <li class="divider-vertical"></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
+            <div class= "dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+<form action="{% url login %}" method="post" accept-charset="UTF-8">
+		{% csrf_token %}
+		{% if next %}
+		<input type="hidden" name="next" value="{{ next }}" />
+		{% endif %}
+  <input id="user_username" style="margin-bottom: 15px;" type="text" name="username" value='{{username}}' size="30" />
+  <input id="user_password" style="margin-bottom: 15px;" type="password" name="password" value='{{password}}' size="30" />
+  <input id="user_remember_me" style="float: left; margin-right: 10px;" type="checkbox" name="user[remember_me]" value="1" />
+  <label class="string optional" for="user_remember_me"> Remember me</label>
+ 
+  <input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" name="commit" value="Sign In" />
+</form>
+            </div>
+          </li>
+        </ul>
+{% endif %}
         </div>
     </div>
 </div>
+{% if not user.is_authenticated %}
+<header class="jumbotron subhead" id="overview">
+    <div class="container">
+        <h1>Truco</h1>
+        <p class="lead">Trazador de la ruta de la compra</p>
+</header>
+{% endif %}
 
 <div id="messages">
     {% if messages %}
