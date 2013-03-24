@@ -4,10 +4,6 @@
 {% block title %}{% trans "Welcome Truco" %}{% endblock %}
 
 {% block extrahead %}
-<script type="text/javascript"
-        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCB2zZMe_TBq6GV2DQskbuh1t8_KyQZH-g&sensor=false">
-</script>
-<script type="text/javascript" src="{{STATIC_URL}}js/gmap.js"></script>
 <style type="text/css">
    h1, #loginForm * {
        margin: 0;
@@ -23,19 +19,23 @@
 
 {% block content %}
     <script type="text/javascript">
-        function resize_map() {
-            var h = $(window).height(),
-                    // TODO no entiendo bien que deberiamos poner aqui
-                    offsetTop = 30; // Calculate the top offset
-            $('#map_canvas').css('height', (h - offsetTop));
-        }
-        $(function() {
-            resize_map(); // set up the right height for the map
-            initialize() // google maps canvas initialization
-        });
-        $(window).resize(resize_map).resize();
+$(function(){
+var $map=$('#map_canvas');
+$map.gmap3({
+ map:{
+    options:{
+     center: [-33, 151],
+     zoom: 8
+    }
+ },
+ marker:{
+    latLng: [-33, 151],
+    callback: function(){
+    }
+ }
+});
+});
     </script>
-    <div class="container-fluid">
         <div class="row-fluid">
             <div class="span4">
                 "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
@@ -44,9 +44,6 @@
                     voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
                     non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
             </div>
-            <div class="span8">
-                <div id="map_canvas"></div>
-            </div>
+                <div id="map_canvas" class="gmap3 span8"></div>
         </div>
-    </div>
 {% endblock %}
