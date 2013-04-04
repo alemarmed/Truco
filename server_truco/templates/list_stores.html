@@ -7,24 +7,10 @@
 <script type="text/javascript">
 $(function() {
 
-  var oTable = $('#table_stores').dataTable( {
-    "aoColumnDefs": [ {
-      "aTargets": [ 0 ],
-      "mRender": function ( type, full ) {
-        return '<a href="'+data+'">Download</a>';
-      }
-    } ]
-  } );    
+  var oTable = $('#table_stores').dataTable();    
 
 } );
 </script>
-{% if user.is_authenticated %}
-  Bienvenido,  {{user.username}}
- {{user.pk}}
-
-{% else %}
-    <p>Welcome, new user. Please log in.</p>
-{% endif %}   
 <table id="table_stores">
 <thead>
 <th></th>
@@ -36,6 +22,7 @@ $(function() {
        <tr>
        	<td>{{ store.name|capfirst }}</td>
        	<td>{{ store.description|capfirst }}</td>
+       <td><a href="/store/edit/{{store.id}}">Editar</a></td>
        </tr>
        {% endfor %}
 </tbody>

@@ -44,11 +44,6 @@ def list_stores(request):
 	"""
 	List all store from a customer User
 	"""
-	s = Store.objects.all()
-	for a in s:
-		print a
-		o = a.owners
-		print o
 		
 	manager = Manager.objects.get(user=request.user)
 	stores = manager.store_set.all()
@@ -101,3 +96,9 @@ def product_form(request, store):
 	pass
 
 
+@login_required
+def save_location(request):
+	"""
+	Save a location in a edited store. 
+	For new store it come from store_form
+	"""
