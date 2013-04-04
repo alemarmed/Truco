@@ -31,7 +31,8 @@ def login_view(request):
 		
 
 def home(request):
-	template ='home.html'
+	template = 'home.html'
+	localizations = Localization.objects.select_related('store').all()
 	data = {
 		"count_users" : Consumer.objects.count(),
 		"places" : Localization.objects.all()
@@ -44,6 +45,11 @@ def list_stores(request):
 	"""
 	List all store from a customer User
 	"""
+	s = Store.objects.all()
+	for a in s:
+		print a
+		o = a.owners
+		print o
 		
 	manager = Manager.objects.get(user=request.user)
 	stores = manager.store_set.all()
