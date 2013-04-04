@@ -18,32 +18,96 @@
 {% endblock %}
 
 {% block content %}
-    <script type="text/javascript">
-$(function(){
-var $map=$('#map_canvas');
-$map.gmap3({
- map:{
-    options:{
-     center: [-33, 151],
-     zoom: 8
-    }
- },
- marker:{
-    latLng: [-33, 151],
-    callback: function(){
-    }
- }
-});
-});
-    </script>
-        <div class="row-fluid">
-            <div class="span4">
-                "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                    laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                    non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-            </div>
-                <div id="map_canvas" class="gmap3 span8"></div>
+    <div class="row-fluid">
+        <div class="span4">
+            <p>Contamos con {{ places|length }} tiendas y sus productos en nuestro mapa</p>
+            <p>{{ count_users }} personas ya son usuarios de Truco</p>
+
+            <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+            ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+            non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
         </div>
+        <div id="map_canvas" class="gmap3 span8"></div>
+    </div>
+
+    <script type="text/javascript">
+    $(function(){
+        var map=$('#map_canvas');
+        var defaultpos = '37.177518,-3.598496'; // Granada (Spain)
+        map.gmap3({
+          getgeoloc:{
+             callback : function(latLng){
+               if (!latLng){
+                   latLng = defaultpos;
+               }
+               $(this).gmap3({
+                  map:{
+                    options:{
+                        center: latLng,
+                        zoom: 12,
+                        mapTypeControl: false,
+                        streetViewControl: false
+                    }
+                  }
+               });
+             }
+          }
+        });
+        var markers;
+        // Valores de prueba
+        markers = [
+            {latLng:[37.229896,-3.654327], data:"Tienda 1"},
+            {latLng:[37.228392,-3.647118], data:"Tienda 2"},
+            {latLng:[37.221968,-3.641453], data:"Tienda 3"},
+            {latLng:[37.182453,-3.601456], data:"Tienda 4"},
+            {latLng:[37.184094,-3.616734], data:"Tienda 5"},
+            {latLng:[37.185735,-3.632011], data:"Tienda 6"},
+            {latLng:[37.202281,-3.616734], data:"Tienda 7"},
+            {latLng:[37.170827,-3.600426], data:"Tienda 8"},
+            {latLng:[37.180675,-3.586864], data:"Tienda 9"},
+            {latLng:[37.190658,-3.595963], data:"Tienda 10"}
+        ];
+
+        {% for p in places %}
+            markers.push({lat: p.lat, lng: p.lng, data: p.store.name});
+        {% endfor %}
+
+        map.gmap3({
+            marker:{
+                values: markers,
+                options:{
+                    draggable: false
+                }
+            },
+            cluster:{
+                radius: 50,
+                events:{ // events trigged by clusters
+                    mouseover: function(cluster){
+                        $(cluster.main.getDOMElement()).css("border", "1px solid red");
+                    },
+                    mouseout: function(cluster){
+                        $(cluster.main.getDOMElement()).css("border", "0px");
+                    }
+                },
+                0: { // This style will be used for clusters with more than 0 markers
+                    content: "<div class='cluster cluster-1'>CLUSTER_COUNT</div>",
+                    width: 53,
+                    height: 52
+                },
+                20: { // This style will be used for clusters with more than 20 markers
+                    content: "<div class='cluster cluster-2'>CLUSTER_COUNT</div>",
+                    width: 56,
+                    height: 55
+                },
+                50: { // This style will be used for clusters with more than 50 markers
+                    content: "<div class='cluster cluster-3'>CLUSTER_COUNT</div>",
+                    width: 66,
+                    height: 65
+                }
+            }
+        });
+    });
+    </script>
 {% endblock %}

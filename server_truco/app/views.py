@@ -26,17 +26,18 @@ def login_view(request):
 			messages.error(request, 'Document deleted.')
 	template="registration/login.html"
 	return render_to_response(template, context_instance=RequestContext(request))
-		
+
 		# Return an 'invalid login' error message.
-		
+
 
 def home(request):
-	template ='home.html'
+	template = 'home.html'
+	localizations = Localization.objects.select_related('store').all()
 	data = {
 		"count_users" : Consumer.objects.count(),
-		"places" : Localization.objects.all()
+		"places" : localizations
 	}
-	return render_to_response(template, data , context_instance=RequestContext(request))
+	return render_to_response(template, data, context_instance=RequestContext(request))
 
 
 @login_required
@@ -49,7 +50,7 @@ def list_stores(request):
 		print a
 		o = a.owners
 		print o
-		
+
 	manager = Manager.objects.get(user=request.user)
 	stores = manager.store_set.all()
 	template = "list_stores.html"
@@ -66,7 +67,7 @@ def store_form(request,id_store=None):
 	else:
 		s=Store()
 	if request.method == 'POST': # If the form has been submitted...
-		form = StoreForm(request.POST,instance=s) 
+		form = StoreForm(request.POST,instance=s)
 		if form.is_valid(): # All validation rules pass
 			name = form.cleaned_data['name']
 			description = form.cleaned_data['description']
