@@ -22,6 +22,7 @@ def login_view(request):
 			if user.is_active:
 				if 'remember_me' in request.POST:
 					request.session.set_expiry(1209600)
+				login(request, user)
 				return redirect('home')
 				# Redirect to a success page.
 			else:
