@@ -1,37 +1,9 @@
-{% extends "base.html" %}
+{% extends "base_public.html" %}
 {% load i18n %}
 
 {% block title %}{% trans "Welcome Truco" %}{% endblock %}
 
 {% block extrahead %}
-<style type="text/css">
-   h1, #loginForm * {
-       margin: 0;
-       padding: 0;
-       list-style: none;
-       float: left;
-   }
-   #loginForm ul li {
-       display: inline;
-   }
-</style>
-{% endblock %}
-
-{% block content %}
-    <div class="row-fluid">
-        <div class="span4">
-            <p>Contamos con {{ places|length }} tiendas y sus productos en nuestro mapa</p>
-            <p>{{ count_users }} personas ya son usuarios de Truco</p>
-
-            <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-            ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-            non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
-        </div>
-        <div id="map_canvas" class="gmap3 span8"></div>
-    </div>
-
     <script type="text/javascript">
     $(function(){
         var map=$('#map_canvas');
@@ -109,5 +81,31 @@
             }
         });
     });
-    </script>
+</script>
+<style type="text/css">
+   h1, #loginForm * {
+       margin: 0;
+       padding: 0;
+       list-style: none;
+       float: left;
+   }
+   #loginForm ul li {
+       display: inline;
+   }
+</style>
+{% endblock %}
+
+{% block content %}
+        <div class="span4">
+            <p>Contamos con {{ places|length }} tiendas y sus productos en nuestro mapa</p>
+            <p>{{ count_users }} personas ya son usuarios de Truco</p>
+
+            <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+            ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+            non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+        </div>
+        <div id="map_canvas" class="gmap3 span8"></div>
+    </div>
 {% endblock %}

@@ -1,11 +1,29 @@
-{% extends "base.html" %}
+{% extends "base_public.html" %}
 {% load i18n %}
+{% block title %}Registro{% endblock %}
 
 {% block content %}
-<form method="post" action=".">
-  {% csrf_token %}
-  {{ form.as_p }}
-
-  <input type="submit" value="{% trans 'Submit' %}" />
-</form>
+		
+	<div class="row-fluid">
+		<div class="span12 center login-header">
+			<h2>Formulario de registro </h2>
+		</div><!--/span-->
+	</div><!--/row-->
+	
+	<div class="row-fluid">
+		<div class="well span9 center">
+			{% if messages %}
+				<div class="alert alert-info">
+					{% for message in messages %}
+						{{ message }}
+					{% endfor %}
+				</div>					
+			{% endif %}
+			<form method="post" action=".">
+  				{% csrf_token %}
+  				{{ form.as_table }}
+			<p class="center">
+  				<input type="submit" class="btn btn-primary btn-large" value="{% trans 'Registrar' %}" />
+			</p>
+			</form>
 {% endblock %}
