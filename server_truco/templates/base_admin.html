@@ -174,15 +174,24 @@
 			<!-- content starts -->
 			<div>
 				<ul class="breadcrumb">
-					<li>
-						<a href="#">Home</a> <span class="divider">/</span>
-					</li>
-					<li>
-						<a href="#">Dashboard</a>
-					</li>
+			{% block breadcrum %}
+			{% endblock breadcrum %}
+
 				</ul>
 			</div>
+			<div class = 'row-fluid page-header'>
+				<div class='page-title span8'>
+				{% block page-title%}
+				{% endblock page-title %}
+				</div>
+				<div class='btn-group span2'>
+				{% block operations%}
+				{% endblock %}
+				</div>
+				
+			</div>
 			{% block contentdata%}
+			
 			{% endblock%}
 
 {% endblock content%}
