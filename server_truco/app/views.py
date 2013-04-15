@@ -44,7 +44,7 @@ def login_view(request):
 def home(request):
 	data = {}
 	localizations = []
-	if request.user is not None:
+	if request.user.is_authenticated():
 		template = 'dashboard.html'
 	else:
 		template = 'home.html'
@@ -60,15 +60,12 @@ def home(request):
 def list_stores(request):
 	"""
 	List all store from a customer User
-	"""
-	s = Store.objects.all()
-	for a in s:
-		print a
-		o = a.owners
-		print o
-		
+	"""	
 	manager = Manager.objects.get(user=request.user)
 	stores = manager.store_set.all()
+	for s in stores:
+		localizations = Localization.objects.filter(store = s)
+		s.loc = localizations.__len__()
 	template = "list_stores.html"
 	return render_to_response(template, {'stores': stores, 'user':request.user},context_instance=RequestContext(request))
 
