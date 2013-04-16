@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.template.context import RequestContext
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect,\
+	HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, render_to_response,\
 	redirect
 from app.models import *
@@ -97,8 +98,24 @@ def store_form(request,id_store=None):
 		'form': form,
 	})
 
+@login_required
+def delete_store(request):
+	"""
+	Delete a store or list of stores
+	"""
+	if request.is_ajax:
+		stores = request.GET.getlist('stores[]')
+		try:
+			Store.objects.filter(pk__in=stores).delete()
+			message = _(u'Tiendas borradas correctamente')
+		except:
+			message = _(u'No se han podido borrar las tiendas')
+			return HttpResponse(message, mimetype="text/plain")
+		return HttpResponse(message, mimetype="text/plain")
+	else:
+		return HttpResponseForbidden()
 
-#@login_required
+@login_required
 def list_products(request,store):
 	"""
 	List all Products from a Customer User in a 
@@ -107,7 +124,7 @@ def list_products(request,store):
 
 
 #TODO: Descomentar login_required cuando tengamos el registro
-#@login_required
+@login_required
 def product_form(request, store):
 	"""
 	Create a product in a customer store

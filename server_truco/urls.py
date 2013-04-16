@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^store/new/$', "app.views.store_form", name="new_store"),
     url(r'^login/$', 'app.views.login_view', name='login'),
     url(r'^store/save_location','app.views.save_location',name='save_location'),
+    url(r'^store/delete/$','app.views.delete_store',name='delete_store'),
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
