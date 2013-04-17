@@ -194,9 +194,9 @@ class Place_has_product(models.Model):
 	Representa la venta de un producto en un lugar concreto con un precio
 	NOTA: localization o store deben ser nulos
 	"""
-	localization = models.ForeignKey(Place)
-    store = models.ForeignKey(Store)
-    product = models.ForeignKey(Product)
+	localization = models.ForeignKey(Place, null  = True)
+	store = models.ForeignKey(Store, null  = True)
+	product = models.ForeignKey(Product)
 	pvp = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=_(u'Product PVP'))
 	offer = models.ForeignKey(Offer, null = True)
 	created_at = models.DateTimeField(auto_now_add = True)
