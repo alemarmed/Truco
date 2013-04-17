@@ -4,33 +4,51 @@
 {% block title %}{% trans "Products" %}{% endblock %}
 
 {% block extrascript %}
+	<script type="text/javascript">
+		function select_category(idselect) {
+			var idcat = $("#categories #"+idselect).val();
+            // Get subcategories via AJAX request
+            $.ajax({
+				type: 'GET',
+				datatype: 'json',
+				url : "{% url subcategories %}",
+				data: {idcategory : idcat},
+				success : function (data){
+					console.info(data);
+				},
+				error: function(data){
+					alert("Codigo de error: oinadpfinapsifewwrjfjieieik1231231414");
+				}
+			});
+            // TODO Si es antecesor de algun/os selects -> Quitarlos
+            // TODO Crear un select con las subcategorias
+		}
+	</script>
     <script type="text/javascript">
         $(function() {
-            $("#cat1").change(function(){
-                var category = $("#cat1").val();
-                // Llamada AJAX para crear un select con las subcategorias de category
-            });
+        	var parent_cat = "#categories #cat1";
+            $(parent_cat).live('change', select_category(parent_cat));
         } );
     </script>
 {% endblock %}
 {% block contentdata %}
 
-    <div class="control-group">
+    <div id="categories" class="control-group">
         <label class="control-label" for="cat1">{% trans "Category" %}</label>
         <div class="controls">
             <select id="cat1" data-rel="chosen">
-                <option>Categoría</option>
-                <option>Alimentacion</option>
-                <option>Higiene</option>
-                <option>Marcas blancas</option>
+                <option value="1">Categoría</option>
+                <option value="2">Alimentacion</option>
+                <option value="3">Higiene</option>
+                <option value="4">Marcas blancas</option>
             </select>
         </div>
         <div class="controls cat1">
             <select id="cat2" data-rel="chosen">
-                <option>Subcategoría</option>
-                <option>Frutería</option>
-                <option>Lacteos</option>
-                <option>Bollería</option>
+                <option value="5">Subcategoría</option>
+                <option value="6">Frutería</option>
+                <option value="7">Lacteos</option>
+                <option value="8">Bollería</option>
             </select>
         </div>
     </div>

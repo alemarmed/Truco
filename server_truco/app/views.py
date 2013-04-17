@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.template.context import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect,\
-	HttpResponseForbidden
+	HttpResponseForbidden, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, render_to_response,\
 	redirect
 from app.models import *
@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from app.forms import StoreForm
+from django.utils.simplejson import dumps
 from django.utils.translation import ugettext as _
 
 def login_view(request):
@@ -44,12 +45,12 @@ def login_view(request):
 
 def home(request):
 	data = {}
-	localizations = []
+	places = []
 	if request.user.is_authenticated():
 		template = 'dashboard.html'
 	else:
 		template = 'home.html'
-		localizations = Place.objects.select_related('store').all()
+		places = Place.objects.select_related('store').all()
 		data = {
 			"count_users" : Consumer.objects.count(),
 			"places" : Place.objects.all()
@@ -130,3 +131,19 @@ def save_location(request):
 	Save a location in a edited store. 
 	For new store it come from store_form
 	"""
+
+"""
+	AJAX requests below
+"""
+
+@login_required
+def get_subcategories(request):
+	if not request.is_ajax():
+		return HttpResponseForbidden();
+	idcat = request.GET.get('idcategory');
+	if idcat == None :
+		return HttpResponseBadRequest();
+	else:
+		subcategories = Category.objects.filter(parent__pk__eq=idcat);
+		return HttpResponse(dumps(subcategories));
+	
