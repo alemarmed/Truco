@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from app.forms import StoreForm
+from django.utils.simplejson import dumps
 from django.utils.translation import ugettext as _
 
 def login_view(request):
@@ -44,12 +45,12 @@ def login_view(request):
 
 def home(request):
 	data = {}
-	localizations = []
+	places = []
 	if request.user.is_authenticated():
 		template = 'dashboard.html'
 	else:
 		template = 'home.html'
-		localizations = Place.objects.select_related('store').all()
+		places = Place.objects.select_related('store').all()
 		data = {
 			"count_users" : Consumer.objects.count(),
 			"places" : Place.objects.all()
@@ -115,7 +116,7 @@ def delete_store(request):
 			message = _(u'Tiendas borradas correctamente')
 		except:
 			message = _(u'No se han podido borrar las tiendas')
-			return HttpResponseServerError(message, mimetype="text/plain")
+			return HttpResponse(message, mimetype="text/plain")
 		return HttpResponse(message, mimetype="text/plain")
 	else:
 		return HttpResponseForbidden()
