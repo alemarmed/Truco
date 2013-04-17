@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.template.context import RequestContext
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect,\
+	HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, render_to_response,\
 	redirect
 from app.models import *
@@ -44,7 +45,7 @@ def login_view(request):
 def home(request):
 	data = {}
 	localizations = []
-	if request.user is not None:
+	if request.user.is_authenticated():
 		template = 'dashboard.html'
 	else:
 		template = 'home.html'
@@ -60,15 +61,12 @@ def home(request):
 def list_stores(request):
 	"""
 	List all store from a customer User
-	"""
-	s = Store.objects.all()
-	for a in s:
-		print a
-		o = a.owners
-		print o
-
+	"""	
 	manager = Manager.objects.get(user=request.user)
 	stores = manager.store_set.all()
+	for s in stores:
+		localizations = Localization.objects.filter(store = s)
+		s.loc = localizations.__len__()
 	template = "list_stores.html"
 	return render_to_response(template, {'stores': stores, 'user':request.user},context_instance=RequestContext(request))
 
@@ -100,6 +98,22 @@ def store_form(request,id_store=None):
 		'form': form,
 	})
 
+@login_required
+def delete_store(request):
+	"""
+	Delete a store or list of stores
+	"""
+	if request.is_ajax:
+		stores = request.GET.getlist('stores[]')
+		try:
+			Store.objects.filter(pk__in=stores).delete()
+			message = _(u'Tiendas borradas correctamente')
+		except:
+			message = _(u'No se han podido borrar las tiendas')
+			return HttpResponse(message, mimetype="text/plain")
+		return HttpResponse(message, mimetype="text/plain")
+	else:
+		return HttpResponseForbidden()
 
 @login_required
 def products(request, id_store, id_place = None):

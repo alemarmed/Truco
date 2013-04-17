@@ -1,17 +1,9 @@
-{% extends "base.html" %}
+{% extends "base_admin.html" %}
 {% load i18n %} 
-{% block title %}{% trans "Store form" %}{% endblock %}
-{% block extrahead%}
-{% endblock%}
-{% block header %}
-<ul class="breadcrumb">
-  <li><a href="#">Home</a> <span class="divider">/</span></li>
-  <li><a href="#">Library</a> <span class="divider">/</span></li>
-  <li class="active">Data</li>
-</ul>
-{% endblock %}
-{% block content %}
 
+{% block title %}{% trans "Store form" %}{% endblock %}
+
+{% block extrascript %}
 <script type="text/javascript">
 $(function(){
 var map=$('#map_localizations');
@@ -131,29 +123,62 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 	});
 });
 </script>
-<div class ="page-header"> 
-<h1>{% trans "Tienda" %}</h1>
-</div>
-<div>
-	<form class="form-horizontal" action="." method="post">
+{% endblock%}
+
+{% block breadcrum%} 
+	<li><a href='/'>{% trans "Dashboard" %}</a><span class="divider">/</span></li>
+	<li><a  href='/my-stores'>{% trans "Mis tiendas" %}</a><span class="divider">/</span></li>
+	<li><a class='active'>{% trans "Nueva tienda" %}</a></li>
+{%endblock breadcrum %}
+
+{% block page-title%}	
+	<h2 style='text-align:center;'>Tienda</h2>
+{% endblock page-title%}
+
+{% block operations%}
+	<a class ='btn' title="{% trans "Añadir una nueva tienda" %}" data-rel="tooltip" href='/store/new/'><i class="icon-plus"></i></a>
+	<a class ='btn' onclick='deleteStores()'><i class="icon-trash"></i></a>
+
+{% endblock operations %}
+{% block messages %}
+{% endblock messages %}
+{% block contentdata %}
+	<div class="row-fluid sortable">	
+	<form class="form-horizontal span12" action="." method="post">
 	{% csrf_token %}
+		<div class="control-group">
+			<label class="control-label" for="name">{% trans "Nombre"%}*:</label>
+			<div class="controls">
+	            <input type="text" name="name" id="id_name" placeholder="name" value="{{form.name.value}}" required>
+			</div>
+		</div>
 	  <div class="control-group">
-	    <label class="control-label span2" for="name">{{ form.name.label_tag }}</label>
-	    <div class="controls">
-	            <input type="text" name="name" id="id_name" placeholder="name" class="span10" value="{{form.name.value}}" required>
-	    </div>
+	    <label class="control-label" for="description">{% trans "Descripción"%}</label>
+	    <div class='controls'>
+	    	<textarea name="description" id="id_description" placeholder="descripción" rows='5'>{{form.description.value}}</textarea>
+	  	</div>
 	  </div>
-	  <div class="control-group">
-	    <label class="control-label span2" for="description">{{ form.description.label_tag }}</label>
-	            <textarea name="description" id="id_description" placeholder="descripción" class="span10" rows='5'>{{form.description.value}}</textarea>
-	  </div>
-	  
-	  <div  class='row-fluid'>{% trans "Añadir localizaciones"%} 
-	  	<a class='btn create'   id="show_map">Ver mapa</a>
-	  	<div id='div_localizations' style='display: none; height:250px;' class='fluid-row'>
+	<div class="row-fluid sortable">
+		<div class="box span12">
+			<div class="box-header well" data-original-title>
+				<h2>{% trans "Añadir localizaciones"%}</h2>
+				<div class="box-icon">
+					<a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
+					<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+					<a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+				</div>
+			</div>
+			<div class="box-content">	  
+	  				
 	    	<div class='span8' id='tabs'>
 	  			<div id='map_localizations'  style='height:250px;' class='row-fluid'></div>
 	  		</div>
+	  		</div>
+	  	</div>
+	  </div> 
+	  	<a class='btn create'   id="show_map">Ver mapa</a>
+	  	<div id='div_localizations' style='display: none; height:250px;' class='fluid-row'>
+
 	  		<div class='span4'>
 	  		<table id='table_locations'>
 	  			<thead>
@@ -176,5 +201,5 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 	  	<button type="submit" class="btn btn-large btn-primary">Guardar</button>
 	  </div>
 	</form>
-</div>
+	</div>
 {% endblock %}

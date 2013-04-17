@@ -4,26 +4,118 @@
 {% block title %}{% trans "This is the title." %}{% endblock %}
 
 {% block extrascript %}
+<script>
+function confirmDelete(){
+		var rows = $('#tableStores tbody tr td input:checked').closest('tr');
+		console.info('rows');
+		if (rows.length > 0){
+			//Building message
+			var message = "<p style='text-align:center;'>¿{% trans "Desea borrar las " %} " + rows.length + " {% trans "tiendas" %}?</p>";
+			$('#myModal .modal-body').html(message);
+			$('#myModal').modal('show');
+		}
+		
+}
+function deleteStores(){
+		$('#myModal').modal('hide');
+		var rows = $('#tableStores tbody tr td input:checked').closest('tr');
+		console.info(rows);
+			var stores_array = [];
+			$.each(rows,function(){
+				stores_array.push(this.id);
+			});
+			console.info(stores_array);
+			$.ajax({
+				type: 'GET',
+				datatype: 'json',
+				url : "{% url delete_store %}",
+				data: {stores : stores_array},
+				success : function (data){
+					console.info("success");
+					console.info(data);
+					html = "<div class='alert alert-success'>";
+					html = html+"<button type='button' class='close' data-dismiss='alert'>×</button>";
+					html= html+data+"</div>";
+					$.each(rows,function(){
+						$('#tableStores').dataTable().fnDeleteRow(this);
+					});
+					$('#messages').html(html);
+					setTimeout(function(){
+					$('#messages').html("");},6000);
+					
+				},
+				error: function(data){
+					html = "<div class='alert alert-error'>";
+					html = html+"<button type='button' class='close' data-dismiss='alert'>×</button>";
+					html= html+data+"</div>";
+					$.each(rows,function(){
+						$('#tableStores').dataTable().fnDeleteRow(this);
+					});
+					$('#messages').html(html);
+					setTimeout(function(){
+					$('#messages').html("");},6000);					
+				}
+			});
+}
+</script>
 {% endblock %}
+
+{% block breadcrum%} 
+	<li><a>{% trans "Dashboard" %}</a><span class="divider">/</span></li>
+	<li><a>{% trans "Mis tiendas" %}</a></li>
+{%endblock breadcrum %}
+
+{% block page-title%}	
+	<h2 style='text-align:center;'>hola</h2>
+{% endblock page-title%}
+
+{% block operations%}
+	<a class ='btn' title="{% trans "Añadir una nueva tienda" %}" data-rel="tooltip" href='/store/new/'><i class="icon-plus"></i></a>
+	<a class ='btn' onclick='confirmDelete()'><i class="icon-trash"></i></a>
+
+{% endblock operations %}
+{% block messages %}
+{% endblock messages %}
 {% block contentdata %}
-<div class="row-fluid sortable">	
-	<table id='table'  class="table table-striped table-bordered bootstrap-datatable datatable">
-		  <thead>
-			  <tr>
-				  <th>Username</th>
-				  <th>Date registered</th>
-				  <th>Status</th>                                          
-			  </tr>
-		  </thead>   
-		  <tbody>                                  
-		       {% for store in stores %}
-		       <tr>
-		       		<td>{{ store.name|capfirst }}</td>
-		       		<td>{{ store.description|capfirst }}</td>
-		       		<td><a href="/store/edit/{{store.id}}" class="btn btn-info">Editar<i class="icon-edit icon-white"></i></a></td>
-		       </tr>
-		       {% endfor %}
-		  </tbody>
-	 </table>       
-</div><!--/row-->
+		<table id='tableStores'  class="table table-striped table-bordered bootstrap-datatable datatable">
+			  <thead>
+				  <tr>
+				  	<th><input type='checkbox' /></th>
+					  <th>{% trans "Nombre" %}</th>
+					  <th>{% trans "Descripción" %}</th>
+					  <th>{% trans "localizaciones" %}</th>
+					  <th>{% trans "Acciones" %}</th>                                          
+				  </tr>
+			  </thead>   
+			  <tbody>                                  
+			       {% for store in stores %}
+			       <tr id='{{store.pk}}'>
+			       		<td><input type ='checkbox' /></td>
+			       		<td>{{ store.name|capfirst }}</td>
+			       		<td>{{ store.description|capfirst }}</td>
+			       		<td>{{store.loc}}</td>
+			       		<td>
+				       		<p class= 'btn-group'>
+					       		<a href="/store/edit/{{store.id}}" class="btn btn-info"><i class="icon-edit icon-white"></i></a>
+					       		<a href="/store/edit/{{store.id}}" class="btn btn-danger"><i class="icon-trash icon-white"></i></a>
+				       		</p>
+				       	</td>
+			       </tr>
+			       {% endfor %}
+			  </tbody>
+		 </table>       
+	</div><!--/row-->
+	<!-- Dialog showed when delete button is pressed -->
+		<div class="modal hide fade" id="myModal">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h3 style='text-align:center'>{% trans "Confirmar" %}</h3>
+			</div>
+			<div class="modal-body">
+			</div>
+			<div class="modal-footer" style='text-align:center'>
+				<a href="#" class="btn" data-dismiss="modal">{% trans "CANCELAR"%}</a>
+				<a href="#" class="btn btn-primary" onclick="deleteStores()">{% trans "Borrar" %}</a>
+			</div>
+		</div>
 {% endblock %}
