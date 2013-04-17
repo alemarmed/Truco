@@ -121,8 +121,12 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 		$('#div_localizations').toggle();
 		$('#table_locations').dataTable();
 	});
+	
 });
-
+function saveAndContinue(){
+	$('#continue_inserting').val('True');
+	$('store_form').submit();
+}
 //Simulating minimize box-content
 var $target = $('.box-content');
 if($target.is(':visible')) $('i',$(this)).removeClass('icon-chevron-up').addClass('icon-chevron-down');
@@ -150,8 +154,9 @@ $target.slideToggle();
 {% endblock messages %}
 {% block contentdata %}
 	<div class="row-fluid sortable">	
-	<form class="form-horizontal span12 mine" action="." method="post">
+	<form id='store_form' class="form-horizontal span12 mine" action="." method="post">
 	{% csrf_token %}
+	<input type='hidden' value='False' name='continue_inserting' id='continue_inserting'/>
 		<div class="control-group">
 			<label class="control-label" for="name">{% trans "Nombre"%}*:</label>
 			<div class="controls">
@@ -202,7 +207,7 @@ $target.slideToggle();
 
 	  <div  class='row-fluid center'>
 	  	<button type="submit" class="btn btn-large btn-primary">Guardar</button>
-	  	<button type="submit" class="btn btn-large btn-info" id='saveandcontinue'>Guardar</button>
+	  	<button type="submit" class="btn btn-large btn-info" id='saveAndContinue' onclick='saveAndContinue'>{% trans "Guardar y continuar"%}</button>
 	  </div>
 	</form>
 	</div>

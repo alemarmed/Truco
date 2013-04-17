@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.template.context import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect,\
-	HttpResponseForbidden
+	HttpResponseForbidden, HttpResponseServerError
 from django.shortcuts import render, get_object_or_404, render_to_response,\
 	redirect
 from app.models import *
@@ -90,7 +90,12 @@ def store_form(request,id_store=None):
 			form.save()
 			if s:
 				manager.store_set.add(s)
-			return HttpResponseRedirect('/store/edit/'+str(s.pk)) # Redirect after POST
+			more = request.POST.get('continue_inserting',False)
+			if more:
+				redirection = "/store/new"
+			else:
+				redirection = '/store/edit/'+str(s.pk)
+			return HttpResponseRedirect(redirection) # Redirect after POST
 	else:
 		form = StoreForm(instance=s)
 	template='store_form.html'
@@ -110,7 +115,7 @@ def delete_store(request):
 			message = _(u'Tiendas borradas correctamente')
 		except:
 			message = _(u'No se han podido borrar las tiendas')
-			return HttpResponse(message, mimetype="text/plain")
+			return HttpResponseServerError(message, mimetype="text/plain")
 		return HttpResponse(message, mimetype="text/plain")
 	else:
 		return HttpResponseForbidden()
