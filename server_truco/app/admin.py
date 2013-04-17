@@ -67,9 +67,9 @@ class ListItemAdmin(admin.ModelAdmin):
 admin.site.register(List_item, ListItemAdmin)
 
 
-class LocalizationAdmin(admin.ModelAdmin):
+class PlaceAdmin(admin.ModelAdmin):
     pass
-admin.site.register(Localization, LocalizationAdmin)
+admin.site.register(Place, PlaceAdmin)
 
 
 class OfferAdmin(admin.ModelAdmin):

@@ -6,13 +6,15 @@ import settings
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
     url(r'^$', 'app.views.home', name='home'),
+    url(r'^login/$', 'app.views.login_view', name='login'),
     url(r'^my-stores/$', "app.views.list_stores", name="list_stores"),
     url(r'^store/edit/(?P<id_store>\w+)/', "app.views.store_form", name="store_form"),
     url(r'^store/new/$', "app.views.store_form", name="new_store"),
-    url(r'^login/$', 'app.views.login_view', name='login'),
     url(r'^store/save_location','app.views.save_location',name='save_location'),
+    url(r'^store/(?P<id_store>\w+)/products','app.views.products',name='products'),
+    url(r'^store/(?P<id_store>\w+)/place/(?P<id_place>\w+)/products','app.views.products',name='products'),
+
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

@@ -1,0 +1,58 @@
+{% extends "base_admin.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Products" %}{% endblock %}
+
+{% block extrascript %}
+    <script type="text/javascript">
+        $(function() {
+            $("#cat1").change(function(){
+                var category = $("#cat1").val();
+                // Llamada AJAX para crear un select con las subcategorias de category
+            });
+        } );
+    </script>
+{% endblock %}
+{% block contentdata %}
+
+    <div class="control-group">
+        <label class="control-label" for="cat1">{% trans "Category" %}</label>
+        <div class="controls">
+            <select id="cat1" data-rel="chosen">
+                <option>Categoría</option>
+                <option>Alimentacion</option>
+                <option>Higiene</option>
+                <option>Marcas blancas</option>
+            </select>
+        </div>
+        <div class="controls cat1">
+            <select id="cat2" data-rel="chosen">
+                <option>Subcategoría</option>
+                <option>Frutería</option>
+                <option>Lacteos</option>
+                <option>Bollería</option>
+            </select>
+        </div>
+    </div>
+
+    <table id="table_products" class="bootstrap-datatable datatable table table-striped table-bordered">
+        <thead>
+        <th>{% trans "Name" %}</th>
+        <th>{% trans "Brand" %}</th>
+        <th>{% trans "Amount" %}</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Yogurt azucarado</td>
+                <td>Danone</td>
+                <td>pack de 6</td>
+            </tr>
+            <tr>
+                <td>Macarrones lisos</td>
+                <td>Hacendado</td>
+                <td>500 gr</td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

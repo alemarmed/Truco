@@ -31,7 +31,7 @@ def login_view(request):
 				+'desactivada.'))
 		else:
 			# Return an 'invalid login' error message.
-			
+
 			messages.add_message(request, messages.ERROR,
 								 _(u'El Usuario o Password no es válido.'))
 			return render_to_response('registration/login.html',
@@ -39,7 +39,7 @@ def login_view(request):
 	return render_to_response('registration/login.html',
 							context_instance=RequestContext(request))		
 		# Return an 'invalid login' error message.
-		
+
 
 def home(request):
 	data = {}
@@ -48,10 +48,10 @@ def home(request):
 		template = 'dashboard.html'
 	else:
 		template = 'home.html'
-		localizations = Localization.objects.select_related('store').all()
+		localizations = Place.objects.select_related('store').all()
 		data = {
 			"count_users" : Consumer.objects.count(),
-			"places" : Localization.objects.all()
+			"places" : Place.objects.all()
 			}
 	return render_to_response(template, data , context_instance=RequestContext(request))
 
@@ -66,7 +66,7 @@ def list_stores(request):
 		print a
 		o = a.owners
 		print o
-		
+
 	manager = Manager.objects.get(user=request.user)
 	stores = manager.store_set.all()
 	template = "list_stores.html"
@@ -101,22 +101,14 @@ def store_form(request,id_store=None):
 	})
 
 
-#@login_required
-def list_products(request,store):
+@login_required
+def products(request, id_store, id_place = None):
 	"""
-	List all Products from a Customer User in a 
+	Store (or store localization) products view
 	"""
-	pass
-
-
-#TODO: Descomentar login_required cuando tengamos el registro
-#@login_required
-def product_form(request, store):
-	"""
-	Create a product in a customer store
-	"""
-	pass
-
+	template = "products.html"
+	data = {}
+	return render_to_response(template, data, context_instance=RequestContext(request))
 
 @login_required
 def save_location(request):
