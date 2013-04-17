@@ -25,10 +25,9 @@
 		}
 	</script>
     <script type="text/javascript">
-        $(function() {
-        	var parent_cat = "#categories #cat1";
-            $(parent_cat).live('change', select_category(parent_cat));
-        } );
+ $("#categories #cat1[data-rel='chosen']").on('change', function() {
+    alert(this.value);
+});
     </script>
 {% endblock %}
 {% block contentdata %}

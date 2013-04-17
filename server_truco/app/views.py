@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.template.context import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect,\
-	HttpResponseForbidden, HttpResponseServerError
+	HttpResponseForbidden, HttpResponseServerError, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, render_to_response,\
 	redirect
 from app.models import *
@@ -120,6 +120,22 @@ def delete_store(request):
 		return HttpResponse(message, mimetype="text/plain")
 	else:
 		return HttpResponseForbidden()
+
+
+"""
+  AJAX requests below
+"""
+
+@login_required
+def get_subcategories(request):
+	if not request.is_ajax():
+		return HttpResponseForbidden();
+	idcat = request.GET.get('idcategory')
+	if idcat == None :
+		return HttpResponseBadRequest();
+	else:
+		subcategories = Category.objects.filter(parent__pk__eq=idcat);
+	return HttpResponse(dumps(subcategories));
 
 @login_required
 def products(request, id_store, id_place = None):
