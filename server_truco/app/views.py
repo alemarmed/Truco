@@ -65,8 +65,8 @@ def list_stores(request):
 	manager = Manager.objects.get(user=request.user)
 	stores = manager.store_set.all()
 	for s in stores:
-		localizations = Localization.objects.filter(store = s)
-		s.loc = localizations.__len__()
+		places = Place.objects.filter(store = s)
+		s.loc = places.__len__()
 	template = "list_stores.html"
 	return render_to_response(template, {'stores': stores, 'user':request.user},context_instance=RequestContext(request))
 

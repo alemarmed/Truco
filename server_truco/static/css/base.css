@@ -1,3 +1,15 @@
 #gmap3,.gmap3{
     height: 350px;
 }
+
+form.mine input,form.mine textarea{
+	width : 80%
+}
+
+.page-title h2{
+	text-align:center;
+}
+
+.center {
+	text-align:center;
+}

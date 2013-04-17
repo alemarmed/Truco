@@ -178,12 +178,12 @@
 
 				</ul>
 			</div>
-			<div class = 'row-fluid page-header'>
-				<div class='page-title span8'>
+			<div class = 'row-fluid page-header page-title'>
+				<div class=' span8 pull-left'>
 				{% block page-title%}
 				{% endblock page-title %}
 				</div>
-				<div class='btn-group span2'>
+				<div class='btn-group pull-right span2'>
 				{% block operations%}
 				{% endblock %}
 				</div>
@@ -202,6 +202,5 @@
 {% endblock %}
 {% block extrascript %}
 <script>
-alert("VAMOS");
 </script>
 {% endblock %}

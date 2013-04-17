@@ -122,6 +122,12 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 		$('#table_locations').dataTable();
 	});
 });
+
+//Simulating minimize box-content
+var $target = $('.box-content');
+if($target.is(':visible')) $('i',$(this)).removeClass('icon-chevron-up').addClass('icon-chevron-down');
+else 					   $('i',$(this)).removeClass('icon-chevron-down').addClass('icon-chevron-up');
+$target.slideToggle();
 </script>
 {% endblock%}
 
@@ -132,7 +138,7 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 {%endblock breadcrum %}
 
 {% block page-title%}	
-	<h2 style='text-align:center;'>Tienda</h2>
+	<h2>{% trans "Tienda" %}</h2>
 {% endblock page-title%}
 
 {% block operations%}
@@ -144,18 +150,18 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 {% endblock messages %}
 {% block contentdata %}
 	<div class="row-fluid sortable">	
-	<form class="form-horizontal span12" action="." method="post">
+	<form class="form-horizontal span12 mine" action="." method="post">
 	{% csrf_token %}
 		<div class="control-group">
 			<label class="control-label" for="name">{% trans "Nombre"%}*:</label>
 			<div class="controls">
-	            <input type="text" name="name" id="id_name" placeholder="name" value="{{form.name.value}}" required>
+	            <input type="text" name="name" id="id_name" placeholder="name" value="{{form.name.value}}" required >
 			</div>
 		</div>
 	  <div class="control-group">
 	    <label class="control-label" for="description">{% trans "Descripción"%}</label>
 	    <div class='controls'>
-	    	<textarea name="description" id="id_description" placeholder="descripción" rows='5'>{{form.description.value}}</textarea>
+	    	<textarea name="description" id="id_description" placeholder="descripción" class="autogrow">{{form.description.value}}</textarea>
 	  	</div>
 	  </div>
 	<div class="row-fluid sortable">
@@ -163,9 +169,7 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 			<div class="box-header well" data-original-title>
 				<h2>{% trans "Añadir localizaciones"%}</h2>
 				<div class="box-icon">
-					<a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
-					<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-					<a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+					<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-down"></i></a>
 				</div>
 			</div>
 			<div class="box-content">	  
@@ -176,7 +180,6 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 	  		</div>
 	  	</div>
 	  </div> 
-	  	<a class='btn create'   id="show_map">Ver mapa</a>
 	  	<div id='div_localizations' style='display: none; height:250px;' class='fluid-row'>
 
 	  		<div class='span4'>
@@ -197,8 +200,9 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
 	  	</div>
 	  </div>
 
-	  <div  class='row-fluid'>
+	  <div  class='row-fluid center'>
 	  	<button type="submit" class="btn btn-large btn-primary">Guardar</button>
+	  	<button type="submit" class="btn btn-large btn-info" id='saveandcontinue'>Guardar</button>
 	  </div>
 	</form>
 	</div>

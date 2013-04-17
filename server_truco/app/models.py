@@ -2,6 +2,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from django.db.utils import IntegrityError
 
 
 class Category(models.Model):
@@ -195,9 +196,15 @@ class Place_has_product(models.Model):
 	NOTA: localization o store deben ser nulos
 	"""
 	localization = models.ForeignKey(Place)
-    store = models.ForeignKey(Store)
-    product = models.ForeignKey(Product)
+	store = models.ForeignKey(Store)
+	product = models.ForeignKey(Product)
 	pvp = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=_(u'Product PVP'))
 	offer = models.ForeignKey(Offer, null = True)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
+	
+	def save(self, force_insert=False, force_update=False):
+		if self.store is None and self.localization is None:
+			raise IntegrityError(_('ERROR al insertar: localization and store can\'t be null at the same time '))
+		# this can, of course, be made more generic
+		models.Model.save(self, force_insert, force_update)
