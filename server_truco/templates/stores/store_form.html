@@ -7,63 +7,6 @@
 <script type="text/javascript">
 $(function(){
 var map=$('#map_localizations');
-/* 
-//for autocomplete purpose.. todo
-var input = document.getElementById('address');
-var options = {
-  types: ['(cities)'],
-  componentRestrictions: {country: 'es'}
-};
-
-$("#tabs").tabs({
-    activate: function(event, ui) {
-        if (ui.newPanel.hasClass("gmap3")) {
-            ui.newPanel.gmap3({trigger: "resize"});
-        }
-    }
-});
-
-        var marker = new google.maps.Marker();
-autocomplete = new google.maps.places.Autocomplete(input, options);
-        autocomplete.bindTo('bounds', map);
-google.maps.event.addListener(autocomplete, 'place_changed', function() {
-  var place = autocomplete.getPlace();
-  var image = new google.maps.MarkerImage(
-      place.icon, new google.maps.Size(71, 71),
-      new google.maps.Point(0, 0), new google.maps.Point(17, 34),
-      new google.maps.Size(35, 35));
-  marker.setIcon(image);
-  marker.setPosition(place.geometry.location);
-
-  //infowindow.setContent(place.name);
-  //infowindow.open(map, marker);
-});
-        google.maps.event.addListener(autocomplete, 'place_changed', function() {
-          marker.setVisible(false);
-          input.className = '';
-          var place = autocomplete.getPlace();
-          if (!place.geometry) {
-            // Inform the user that the place was not found and return.
-            input.className = 'notfound';
-            return;
-          }
-
-          // If the place has a geometry, then present it on a map.
-            map.setCenter(place.geometry.location);
-            map.setZoom(17);  // Why 17? Because it looks good.
-          var image = {
-            url: place.icon,
-            size: new google.maps.Size(71, 71),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(35, 35)
-          };
-          marker.setIcon(image);
-          marker.setPosition(place.geometry.location);
-          marker.setVisible(true);
-         });
-*/
-
 	$('#show_map').click(function(){
 		if ($(this).hasClass('create'))
 		{
@@ -76,56 +19,41 @@ google.maps.event.addListener(autocomplete, 'place_changed', function() {
           			options:{
             		center:[46.578498,2.457275],
                 	zoom: 8
-             		},
-             		events:{
-                		rightclick:function(map, event){
-                  			var lat = event.latLng.lat(), 
-                      			lng = event.latLng.lng();
-                  			$(this).gmap3({
-                  				marker:{
-                    				latLng: event.latLng
-                    			}
-                  			});
-			                $(this).gmap3({
-			                  getaddress:{
-			                    latLng:event.latLng,
-			                    callback:function(results){
-			                      var map = $(this).gmap3("get"),
-			                        infowindow = $(this).gmap3(
-			                        	{get:"infowindow"}
-			                        ),
-			                        content = results && results[1] ? results && results[1].formatted_address : "no address";
-			                    	//formatted-address
-			                    	address = results[0].address_components
-			                    	console.info(results[0].address_components);
-			                    	console.info(address[0]);
-			                    	//add element in a datatable whith the info
-			                    	$('#table_locations').dataTable().fnAddData([
-			                    		address[0].long_name,
-			                    		address[5].long_name,
-			                    		lat,
-			                    		lng,
-			                    		address[4].long_name,
-			                    		address[2].long_name
-			                    	]);
-			                    	
-			                    }
-			                  }
-			                });
-                    	}                            
-              		}
-              	}
-          });	
+             		}
+			     }
+			 });
 		}
 		console.info("show map clicked");
 		$('#div_localizations').toggle();
 		$('#table_locations').dataTable();
 	});
-	
+	$('#saveAndContinue').click(function(){
+		$('#continue_inserting').val('True');
+		$('store_form').submit();	
+	});
 });
-function saveAndContinue(){
-	$('#continue_inserting').val('True');
-	$('store_form').submit();
+function show_modal_form_place(id){
+	$('#modal_add_place').modal('show');
+	console.info(id);
+	var params = [];
+	{% if pk %}
+		console.info("form.id.value exists");
+		params.push('id_store={{pk}}');
+	{% endif %}
+	if (id != undefined){//create
+		params.push('id_place='+id);
+	}
+	param = "";
+	if (params.length > 0){
+		param = "?";
+		for (i=0;i<params.length -1;i++){
+			param = param + params[i]+'&';
+		}
+		param = param + params[params.length -1]
+	}
+	console.info(param);
+	$('#modal_add_place').load('{% url load_place_form %}'+param);
+	
 }
 //Simulating minimize box-content
 var $target = $('.box-content');
@@ -134,11 +62,14 @@ else 					   $('i',$(this)).removeClass('icon-chevron-down').addClass('icon-chev
 $target.slideToggle();
 </script>
 {% endblock%}
-
 {% block breadcrum%} 
-	<li><a href='/'>{% trans "Dashboard" %}</a><span class="divider">/</span></li>
-	<li><a  href='/my-stores'>{% trans "Mis tiendas" %}</a><span class="divider">/</span></li>
-	<li><a class='active'>{% trans "Nueva tienda" %}</a></li>
+	<div>
+		<ul class="breadcrumb">
+			<li><a href='/'>{% trans "Dashboard" %}</a><span class="divider">/</span></li>
+			<li><a  href='/my-stores'>{% trans "Mis tiendas" %}</a><span class="divider">/</span></li>
+			<li>{% trans "Nueva tienda" %}</li>
+		</ul>
+	</div>
 {%endblock breadcrum %}
 
 {% block page-title%}	
@@ -146,69 +77,78 @@ $target.slideToggle();
 {% endblock page-title%}
 
 {% block operations%}
-	<a class ='btn' title="{% trans "Añadir una nueva tienda" %}" data-rel="tooltip" href='/store/new/'><i class="icon-plus"></i></a>
-	<a class ='btn' onclick='deleteStores()'><i class="icon-trash"></i></a>
-
+	{% ifnotequal pk None %}
+		<a>h</a>
+	{% endifnotequal %}
 {% endblock operations %}
 {% block messages %}
 {% endblock messages %}
 {% block contentdata %}
-	<div class="row-fluid sortable">	
-	<form id='store_form' class="form-horizontal span12 mine" action="." method="post">
-	{% csrf_token %}
-	<input type='hidden' value='False' name='continue_inserting' id='continue_inserting'/>
-		<div class="control-group">
-			<label class="control-label" for="name">{% trans "Nombre"%}*:</label>
-			<div class="controls">
-	            <input type="text" name="name" id="id_name" placeholder="name" value="{{form.name.value}}" required >
-			</div>
-		</div>
-	  <div class="control-group">
-	    <label class="control-label" for="description">{% trans "Descripción"%}</label>
-	    <div class='controls'>
-	    	<textarea name="description" id="id_description" placeholder="descripción" class="autogrow">{{form.description.value}}</textarea>
-	  	</div>
-	  </div>
 	<div class="row-fluid sortable">
-		<div class="box span12">
-			<div class="box-header well" data-original-title>
-				<h2>{% trans "Añadir localizaciones"%}</h2>
-				<div class="box-icon">
-					<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-down"></i></a>
+		<form id='store_form' class="form-horizontal span12 mine" action="." method="post">
+			{% csrf_token %}
+			<input type='hidden' value='False' name='continue_inserting' id='continue_inserting'/>
+			<div class="control-group">
+				<label class="control-label" for="name">{% trans "Nombre"%}*:</label>
+				<div class="controls">
+	            	<input type="text" name="name" id="id_name" placeholder="name" value="{{form.name.value}}" required />
+					{% if form.name.error %}
+					<span class="help-inline">ERROR</span>
+					{% endif %}
+
 				</div>
 			</div>
-			<div class="box-content">	  
-	  				
-	    	<div class='span8' id='tabs'>
-	  			<div id='map_localizations'  style='height:250px;' class='row-fluid'></div>
+	  		<div class="control-group">
+	    		<label class="control-label" for="description">{% trans "Descripción"%}</label>
+	    		<div class='controls'>
+	    			<textarea name="description" id="id_description" placeholder="descripción" class="autogrow">{{form.description.value}}</textarea>
+	  			</div>
 	  		</div>
-	  		</div>
-	  	</div>
-	  </div> 
-	  	<div id='div_localizations' style='display: none; height:250px;' class='fluid-row'>
-
-	  		<div class='span4'>
-	  		<table id='table_locations'>
-	  			<thead>
-	  				<tr>
-	  					<th>Dirección</th>
-	  					<th>CP</th>
-	  					<th>lat</th>
-	  					<th>lng</th>
-	  					<th>País</th>
-	  					<th>Ciudad</th>	  					
-	  				</tr>
-	  			</thead>
-	  			<tbody></tbody>
-	  		</table>
-	  		</div>
-	  	</div>
-	  </div>
-
-	  <div  class='row-fluid center'>
-	  	<button type="submit" class="btn btn-large btn-primary">Guardar</button>
-	  	<button type="submit" class="btn btn-large btn-info" id='saveAndContinue' onclick='saveAndContinue'>{% trans "Guardar y continuar"%}</button>
-	  </div>
-	</form>
+	  		<div class ='row-fluid'>
+				<div class="box span6">
+					<div class="box-header well" data-original-title>
+						<h2>{% trans "Tabla localizaciones"%}</h2>
+						<div class="box-icon">
+							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-down"></i></a>
+							<a href="#" class="btn btn-plus btn-round" title="{% trans 'Nueva localización' %}" data-rel="tooltip" id='btn_add_place' onclick='show_modal_form_place()'><i class="icon-plus"></i></a>
+						</div>
+					</div>
+					<div class="box-content">	  	  				 
+				  		<div id='table_localizations'  style='height:250px;' class='row-fluid'>
+					  		<table id='table_locations' class='table datatable'>
+					  			<thead>
+					  				<tr>
+					  					<th>Dirección</th>
+					  					<th>CP</th>
+					  					<th>lat</th>
+					  					<th>lng</th>
+					  					<th>País</th>
+					  					<th>Ciudad</th>	  					
+					  				</tr>
+					  			</thead>
+					  			<tbody></tbody>
+					  		</table>		  			
+				  		</div>
+			  		</div>
+	  			</div>
+				<div class="box span6">
+					<div class="box-header well" data-original-title>
+						<h2>{% trans "Añadir localizaciones"%}</h2>
+						<div class="box-icon">
+							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-down"></i></a>
+						</div>
+					</div>
+					<div class="box-content">	  	  				
+				  			<div id='map_localizations'  style='height:250px;' class='row-fluid'></div>
+			  		</div>
+		  		</div>
+			</div>
+			<div  class='row-fluid center'>
+				<button type="submit" class="btn btn-large btn-primary">Guardar</button>
+				<button type="submit" class="btn btn-large btn-info" id='saveAndContinue'>{% trans "Guardar y continuar"%}</button>
+			</div>
+		</form>
 	</div>
+	<!--Popups or modals -->
+	<div id='modal_add_place' class="modal hide"></div>
 {% endblock %}

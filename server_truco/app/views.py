@@ -11,6 +11,7 @@ from django.contrib import messages
 from app.forms import StoreForm
 from django.utils.simplejson import dumps
 from django.utils.translation import ugettext as _
+from django.template.defaulttags import ifequal
 
 def login_view(request):
 	if request.POST:
@@ -92,7 +93,7 @@ def store_form(request,id_store=None):
 			if s:
 				manager.store_set.add(s)
 			more = request.POST.get('continue_inserting',False)
-			if more:
+			if more == 'True' :
 				redirection = "/store/new"
 			else:
 				redirection = '/store/edit/'+str(s.pk)
@@ -102,6 +103,7 @@ def store_form(request,id_store=None):
 	template='stores/store_form.html'
 	return render(request, template, {
 		'form': form,
+		'pk' : id_store,
 	})
 
 @login_required
@@ -152,3 +154,13 @@ def save_location(request):
 	Save a location in a edited store. 
 	For new store it come from store_form
 	"""
+	pass
+
+def load_place_form(request):
+	place = request.GET.get('place',None)
+	if place is None or place is 'undefined':
+		title = _(u'Nueva localización')
+	data = {'title' : title}
+	template = 'stores/places/partials/_place_form.html'
+	return render_to_response(template, data, context_instance=RequestContext(request))
+	

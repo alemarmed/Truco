@@ -10,7 +10,6 @@ $(function(){
 });
 function confirmDelete(){
 		var rows = $('#tableStores tbody tr td input:checked').closest('tr');
-		console.info('rows');
 		if (rows.length > 0){
 			//Building message
 			var message = "<p style='text-align:center;'>¿{% trans "Desea borrar las " %} " + rows.length + " {% trans "tiendas" %}?</p>";
@@ -64,8 +63,11 @@ function deleteStores(){
 {% endblock %}
 
 {% block breadcrum%} 
+			<div>
+				<ul class="breadcrumb">
 	<li><a>{% trans "Dashboard" %}</a><span class="divider">/</span></li>
-	<li><a>{% trans "Mis tiendas" %}</a></li>
+	<li>{% trans "Mis tiendas" %}</li>
+	</ul></div>
 {%endblock breadcrum %}
 
 {% block page-title%}	
