@@ -68,7 +68,7 @@ def list_stores(request):
 	for s in stores:
 		places = Place.objects.filter(store = s)
 		s.loc = places.__len__()
-	template = "list_stores.html"
+	template = "stores/list_stores.html"
 	return render_to_response(template, {'stores': stores, 'user':request.user},context_instance=RequestContext(request))
 
 
@@ -99,7 +99,7 @@ def store_form(request,id_store=None):
 			return HttpResponseRedirect(redirection) # Redirect after POST
 	else:
 		form = StoreForm(instance=s)
-	template='store_form.html'
+	template='stores/store_form.html'
 	return render(request, template, {
 		'form': form,
 	})
