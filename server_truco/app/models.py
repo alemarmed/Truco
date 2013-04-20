@@ -15,7 +15,7 @@ class Category(models.Model):
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
 	def __unicode__(self):
-		return self.name+" "+self.pk
+		return "Category: "+self.name+" "+str(self.pk)
 
 class Consumer(models.Model):
 	"""
@@ -25,6 +25,8 @@ class Consumer(models.Model):
 	birthday = models.DateField(null=True)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
+	def __unicode__(self):
+		return "Consumer: "+self.user.username+" "+str(self.pk)
 
 
 class Manager(models.Model):
@@ -37,7 +39,7 @@ class Manager(models.Model):
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
 	def __unicode__(self):
-		return self.user.username+" "+str(self.pk)
+		return "Manager: "+self.user.username+" "+str(self.pk)
 
 class Store(models.Model):
 	"""
@@ -49,7 +51,7 @@ class Store(models.Model):
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
 	def __unicode__(self):
-		return self.name+" "+str(self.pk)
+		return "Store: "+self.name+" "+str(self.pk)
 
 class Brand(models.Model):
 	"""
@@ -59,6 +61,8 @@ class Brand(models.Model):
 	description = models.TextField(null = True, help_text =_(u'Description'), verbose_name =_(u'Description'))
 	lowcost = models.BooleanField(default = False)
 	property_of = models.ForeignKey(Store)
+	def __unicode__(self):
+		return "Brand: "+self.name+" "+str(self.pk)
 
 
 class Tag(models.Model):
@@ -69,6 +73,8 @@ class Tag(models.Model):
 	description = models.TextField(null =True, verbose_name =_(u'Description'))
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
+	def __unicode__(self):
+		return "Tag: "+self.name+" "+str(self.pk)
 
 
 SIZE_TYPES = ( 	# TODO traducir esto
@@ -95,6 +101,8 @@ class Product(models.Model):
 	size_amount = models.DecimalField(null = True, max_digits=10,decimal_places=2,verbose_name=_(u'Amount'))
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
+	def __unicode__(self):
+		return "Product: "+self.name+" "+self.brand.name+" "+str(self.pk)
 
 
 class Virtual_product(models.Model):
@@ -110,12 +118,16 @@ class Virtual_product(models.Model):
 	size_amount = models.DecimalField(null = True, max_digits=10,decimal_places=2,verbose_name=_(u'Amount'))
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
+	def __unicode__(self):
+		return "Virtual product: "+self.name+" "+str(self.pk)
 
 
 class Country(models.Model):
 	name = models.CharField(max_length=256, verbose_name=_(u'Country'))
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
+	def __unicode__(self):
+		return "Country: "+self.name+" "+str(self.pk)
 
 
 class Province(models.Model):
@@ -123,6 +135,8 @@ class Province(models.Model):
 	country = models.ForeignKey(Country)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
+	def __unicode__(self):
+		return "Province: "+self.name+" "+str(self.pk)
 
 
 class City(models.Model):
@@ -130,6 +144,8 @@ class City(models.Model):
 	province = models.ForeignKey(Province)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
+	def __unicode__(self):
+		return "City: "+self.name+" "+str(self.pk)
 
 
 class List(models.Model):
@@ -143,6 +159,8 @@ class List(models.Model):
 	routed = models.BooleanField(default = False)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
+	def __unicode__(self):
+		return "List: "+self.name+" "+str(self.pk)
 
 
 class List_item(models.Model):
@@ -154,6 +172,8 @@ class List_item(models.Model):
 	vproduct = models.ForeignKey(Virtual_product, null = True)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
+	def __unicode__(self):
+		return "List item: "+self.product.name+" "+str(self.pk)
 
 
 class Place(models.Model):
@@ -168,6 +188,8 @@ class Place(models.Model):
 	city = models.ForeignKey(City, verbose_name=_(u'City'))
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
+	def __unicode__(self):
+		return "Place: "+str(self.lat)+","+str(self.lng)
 
 
 class Offer(models.Model):
@@ -188,6 +210,8 @@ class Offer(models.Model):
 	y = models.DecimalField(null = True, max_digits=10,decimal_places=2,verbose_name=_(u'Amount'))
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
+	def __unicode__(self):
+		return "Offer: "+self.name+" "+str(self.pk)
 
 
 class Place_has_product(models.Model):
@@ -202,6 +226,8 @@ class Place_has_product(models.Model):
 	offer = models.ForeignKey(Offer, null = True)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
+	def __unicode__(self):
+		return "Place has product, id = "+str(self.pk)
 	
 	def save(self, force_insert=False, force_update=False):
 		if self.store is None and self.localization is None:

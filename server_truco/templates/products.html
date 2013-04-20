@@ -7,6 +7,8 @@
 	<script type="text/javascript">
 		function select_category(idselect) {
 			var idcat = $("#categories #"+idselect).val();
+			var s = idselect.split("_");
+			var next_level = parseInt(s[1])+1;
             // Get subcategories via AJAX request
             $.ajax({
 				type: 'GET',
@@ -14,42 +16,49 @@
 				url : "{% url subcategories %}",
 				data: {idcategory : idcat},
 				success : function (data){
-					console.info(data);
+					objects = JSON.parse(data);
+					select = "<div class='controls'>"
+					select += "<select id='cat_"+next_level+"'>";
+					select += "<option value='0'>{% trans 'Subcategory' %}</option>""
+					for(var i=0; i < objects.length; i++){
+						console.info(objects[0]);
+						select += "<option value='" + objects[i].pk + "'>";
+						select += objects[i].fields.name + "</option>";
+					}
+					select += "</select></div>";
+					console.info(select);
+					if(next_level == 2){
+						$("#categories #cat_2").remove();
+						$("#categories #cat_3").remove();
+						$("#categories").append(select);
+					}else if(next_level == 3){
+						$("#categories #cat_3").remove();
+						$("#categories").append(select);
+					}
+					$("#categories #cat_"+next_level).chosen();
 				},
 				error: function(data){
-					alert("Codigo de error: oinadpfinapsifewwrjfjieieik1231231414");
+					alert("Error trying to load subcategories");
 				}
 			});
-            // TODO Si es antecesor de algun/os selects -> Quitarlos
-            // TODO Crear un select con las subcategorias
 		}
 	</script>
     <script type="text/javascript">
- $("#categories #cat1[data-rel='chosen']").on('change', function() {
-    alert(this.value);
-});
+ 	$("#categories #cat_1").chosen().change(function() {
+    	select_category("cat_1");
+	});
     </script>
 {% endblock %}
 {% block contentdata %}
 
     <div id="categories" class="control-group">
-        <label class="control-label" for="cat1">{% trans "Category" %}</label>
-        <div class="controls">
-            <select id="cat1" data-rel="chosen">
-                <option value="1">Categoría</option>
-                <option value="2">Alimentacion</option>
-                <option value="3">Higiene</option>
-                <option value="4">Marcas blancas</option>
+        	<label class="control-label" for="cat1">{% trans "Category" %}</label>
+            <select id="cat_1" data-rel="chosen">
+                <option value="0">Categoría</option>
+                <option value="1">Alimentacion</option>
+                <option value="4">Higiene</option>
+                <option value="3">Marcas blancas</option>
             </select>
-        </div>
-        <div class="controls cat1">
-            <select id="cat2" data-rel="chosen">
-                <option value="5">Subcategoría</option>
-                <option value="6">Frutería</option>
-                <option value="7">Lacteos</option>
-                <option value="8">Bollería</option>
-            </select>
-        </div>
     </div>
 
     <table id="table_products" class="bootstrap-datatable datatable table table-striped table-bordered">
