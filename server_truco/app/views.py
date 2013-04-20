@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect,\
 	HttpResponseForbidden, HttpResponseServerError, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, render_to_response,\
 	redirect
+from django.core import serializers
 from app.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
@@ -123,21 +124,16 @@ def delete_store(request):
 	else:
 		return HttpResponseForbidden()
 
-
-"""
-  AJAX requests below
-"""
-
 @login_required
 def get_subcategories(request):
 	if not request.is_ajax():
-		return HttpResponseForbidden();
+		return HttpResponseForbidden()
 	idcat = request.GET.get('idcategory')
 	if idcat == None :
-		return HttpResponseBadRequest();
+		return HttpResponseBadRequest()
 	else:
-		subcategories = Category.objects.filter(parent__pk__eq=idcat);
-	return HttpResponse(dumps(subcategories));
+		subcategories = serializers.serialize("json",Category.objects.filter(parent__id__exact=idcat))
+		return HttpResponse(subcategories, mimetype="text/plain")
 
 @login_required
 def products(request, id_store, id_place = None):
