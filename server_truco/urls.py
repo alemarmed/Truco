@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     url(r'^store/delete/$','app.views.delete_store',name='delete_store'),
     url(r'^store/(?P<id_store>\w+)/products','app.views.products',name='store_products'),
     url(r'^store/(?P<id_store>\w+)/place/(?P<id_place>\w+)/products','app.views.products',name='place_products'),
+    url(r'^load_products/','app.views.load_products',name='load_products'),
     # AJAX
     url(r'^subcategories/$','app.views.get_subcategories',name='subcategories'),
     

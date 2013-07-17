@@ -68,6 +68,7 @@ def login_view(request):
 							context_instance=RequestContext(request))
 	return render_to_response('registration/login.html',
 							context_instance=RequestContext(request))		
+		# Return an 'invalid login' error message.
 
 
 def home(request):

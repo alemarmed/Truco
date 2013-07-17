@@ -6,7 +6,10 @@
 {% block extrascript %}
 	<script type="text/javascript">
 		function select_category(idselect) {
-			var idcat = $("#categories #"+idselect).val();
+			$("#categories .current_category").removeClass("current_category");
+			var cat = $("#categories #"+idselect);
+			cat.addClass("current_category");
+			var idcat = cat.val();
 			var s = idselect.split("_");
 			var next_level = parseInt(s[1])+1;
             // Get subcategories via AJAX request
@@ -17,17 +20,16 @@
 				data: {idcategory : idcat},
 				success : function (data){
 					objects = JSON.parse(data);
-					select = "<div class='controls'>"
-					select += "<select id='cat_"+next_level+"'>";
-					select += "<option value='0'>{% trans 'Subcategory' %}</option>""
+					select = "<select id='cat_"+next_level+"'>";
+					select += "<option value='0'>{% trans 'Subcategory' %}</option>";
 					for(var i=0; i < objects.length; i++){
-						console.info(objects[0]);
 						select += "<option value='" + objects[i].pk + "'>";
 						select += objects[i].fields.name + "</option>";
 					}
-					select += "</select></div>";
-					console.info(select);
+					select += "</select>";
 					if(next_level == 2){
+						// TODO esto borra los selects, pero charisma genera un div
+						// que es lo que se muestra y no se esta borrando bien.
 						$("#categories #cat_2").remove();
 						$("#categories #cat_3").remove();
 						$("#categories").append(select);
@@ -42,6 +44,17 @@
 				}
 			});
 		}
+		function show_products(){
+			var param = "?";
+			{% if id_place %}
+				param += "place={{id_place}}"
+			{% else %}
+				param += "store={{id_store}}"
+			{% endif %}
+			param += "&category=" + $("#categories .current_category").val();
+			$('#products_table').load('{% url load_products %}'+param);
+			$('#products_table').show();
+		}
 	</script>
     <script type="text/javascript">
  	$("#categories #cat_1").chosen().change(function() {
@@ -54,31 +67,13 @@
     <div id="categories" class="control-group">
         	<label class="control-label" for="cat1">{% trans "Category" %}</label>
             <select id="cat_1" data-rel="chosen">
-                <option value="0">Categoría</option>
-                <option value="1">Alimentacion</option>
-                <option value="4">Higiene</option>
-                <option value="3">Marcas blancas</option>
+                <option value="0">{% trans "Category" %}</option>
+                {% for c in pcategories %}
+                <option value="{{c.pk}}">{{c.name}}</option>
+                {% endfor %}
             </select>
     </div>
-
-    <table id="table_products" class="bootstrap-datatable datatable table table-striped table-bordered">
-        <thead>
-        <th>{% trans "Name" %}</th>
-        <th>{% trans "Brand" %}</th>
-        <th>{% trans "Amount" %}</th>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Yogurt azucarado</td>
-                <td>Danone</td>
-                <td>pack de 6</td>
-            </tr>
-            <tr>
-                <td>Macarrones lisos</td>
-                <td>Hacendado</td>
-                <td>500 gr</td>
-            </tr>
-        </tbody>
-    </table>
+    <button class="btn btn-large btn-primary" onclick = "show_products()">{% trans "View" %}</button>
+    <div id="products_table" class="hide"></div>
 
 {% endblock %}
