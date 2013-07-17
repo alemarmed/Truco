@@ -25,6 +25,8 @@ class Consumer(models.Model):
 	birthday = models.DateField(null=True)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
+	token = models.CharField(null=True)
+	token_expiration = models.DateTimeField(null=True)
 	def __unicode__(self):
 		return "Consumer: "+self.user.username+" "+str(self.pk)
 
@@ -183,7 +185,8 @@ class Place(models.Model):
 	lat = models.DecimalField(max_digits=10,decimal_places=6,verbose_name=_(u'Latitude'))
 	lng = models.DecimalField(max_digits=10,decimal_places=6,verbose_name=_(u'Longitude'))
 	address = models.CharField(max_length=256, null=True,help_text=_(u'Address'),verbose_name=_(u'Address'))
-	zip_code = models.CharField(max_length = 50, verbose_name =_(u'Zip code'))
+	#Discuss if necessary
+	zip_code = models.CharField(max_length = 50, verbose_name =_(u'Zip code'),null=True)
 	store = models.ForeignKey(Store, verbose_name=_(u'Store'))
 	city = models.ForeignKey(City, verbose_name=_(u'City'))
 	created_at = models.DateTimeField(auto_now_add = True)
@@ -234,3 +237,5 @@ class Place_has_product(models.Model):
 			raise IntegrityError(_('ERROR al insertar: localization and store can\'t be null at the same time '))
 		# this can, of course, be made more generic
 		models.Model.save(self, force_insert, force_update)
+
+	
