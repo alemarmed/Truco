@@ -46,7 +46,7 @@ class Store(models.Model):
 	Establecimiento (p.e. nombre de una cadena de supermercados), puede tener varias ubicaciones
 	"""
 	name = models.CharField(max_length = 256, help_text =_(u'Name of Store'), verbose_name =_(u'Name'))
-	description = models.TextField(help_text =_(u'Description'), verbose_name =_(u'Description'))
+	description = models.TextField(null = True, help_text =_(u'Description'), verbose_name =_(u'Description'))
 	owners = models.ManyToManyField(Manager, verbose_name = _(u'Store owners'))
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
@@ -60,7 +60,7 @@ class Brand(models.Model):
 	name = models.CharField(max_length = 256, help_text =_(u'Name of Brand'), verbose_name =_(u'Name'))
 	description = models.TextField(null = True, help_text =_(u'Description'), verbose_name =_(u'Description'))
 	lowcost = models.BooleanField(default = False)
-	property_of = models.ForeignKey(Store)
+	property_of = models.ForeignKey(Store, null = True)
 	def __unicode__(self):
 		return "Brand: "+self.name+" "+str(self.pk)
 
@@ -70,7 +70,7 @@ class Tag(models.Model):
 	Usado para añadir atributos a productos, (p.e. sin gluten, desnatado, ecologico)
 	"""
 	name = models.CharField(max_length=256, verbose_name =_(u'Tag'))
-	description = models.TextField(null =True, verbose_name =_(u'Description'))
+	description = models.TextField(null = True, verbose_name =_(u'Description'))
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
 	def __unicode__(self):
@@ -93,11 +93,11 @@ class Product(models.Model):
 	Producto, representa un producto concreto localizado en al menos una tienda
 	"""
 	name = models.CharField(max_length = 256, help_text =_(u'Name of Product'), verbose_name =_(u'Name'))
-	description = models.TextField(null =True, verbose_name =_(u'Description'))
+	description = models.TextField(null = True, verbose_name =_(u'Description'))
 	categories = models.ManyToManyField(Category, verbose_name =_(u'Product categories'))
 	tags = models.ManyToManyField(Tag, verbose_name = _(u'Product attributes'))
-	brand = models.ForeignKey(Brand)
-	size_type = models.CharField(max_length=2, choices=SIZE_TYPES)
+	brand = models.ForeignKey(Brand, null = True)
+	size_type = models.CharField(max_length=2, choices=SIZE_TYPES, null = True)
 	size_amount = models.DecimalField(null = True, max_digits=10,decimal_places=2,verbose_name=_(u'Amount'))
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
@@ -113,8 +113,8 @@ class Virtual_product(models.Model):
 	description = models.TextField(null =True, help_text =_(u'Description'), verbose_name =_(u'Description'))
 	categories = models.ForeignKey(Category, verbose_name =_(u'Product category'))
 	tags = models.ManyToManyField(Tag, verbose_name = _(u'Product attributes'))
-	brand = models.ForeignKey(Brand)
-	size_type = models.CharField(max_length=2, choices=SIZE_TYPES)
+	brand = models.ForeignKey(Brand, null = True)
+	size_type = models.CharField(null = True, max_length=2, choices=SIZE_TYPES)
 	size_amount = models.DecimalField(null = True, max_digits=10,decimal_places=2,verbose_name=_(u'Amount'))
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
@@ -153,7 +153,7 @@ class List(models.Model):
 	Lista de la compra de un usuario
 	"""
 	name = models.CharField(max_length=256, help_text=_(u'Name of Product'),verbose_name=_(u'Name'))
-	description = models.TextField(help_text =_(u'Description'), verbose_name =_(u'Description'))
+	description = models.TextField(null = True, help_text =_(u'Description'), verbose_name =_(u'Description'))
 	owner = models.ForeignKey(Consumer, related_name='my_lists')
 	shared_with = models.ManyToManyField(Consumer, related_name="shared_lists")
 	routed = models.BooleanField(default = False)
@@ -174,7 +174,12 @@ class List_item(models.Model):
 	updated_at = models.DateTimeField(auto_now = True)
 	def __unicode__(self):
 		return "List item: "+self.product.name+" "+str(self.pk)
-
+	
+	def save(self, force_insert=False, force_update=False):
+		if self.product is None and self.vproduct is None:
+			raise IntegrityError(_('ERROR: product and vproduct can\'t be null at the same time '))
+		# this can, of course, be made more generic
+		models.Model.save(self, force_insert, force_update)
 
 class Place(models.Model):
 	"""
@@ -201,8 +206,8 @@ class Offer(models.Model):
 		('PD', _(u'Descuento del X%')),
 		('UD', _(u'Unidad X al Y%')),
 	)
-	name = models.CharField(null = True, max_length = 256, help_text =_(u'Name'), verbose_name =_(u'Name'))
-	text  = models.CharField(max_length = 256, help_text =_(u'Text'), verbose_name =_(u'Text'))
+	name = models.CharField(max_length = 256, help_text =_(u'Name'), verbose_name =_(u'Name'))
+	text  = models.CharField(null = True, max_length = 256, help_text =_(u'Text'), verbose_name =_(u'Text'))
 	date_from = models.DateField()
 	date_to = models.DateField()
 	offer_type = models.CharField(max_length=2, choices=OFFER_TYPES)

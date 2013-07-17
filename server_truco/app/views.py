@@ -141,7 +141,13 @@ def products(request, id_store, id_place = None):
 	Store (or store localization) products view
 	"""
 	template = "products.html"
-	data = {}
+	data = {
+		"pcategories" : Category.objects.filter(parent__exact=None,visible__exact=True)
+	}
+	if id_place is None:
+		data['id_store'] = id_store
+	else:
+		data['id_place'] = id_place
 	return render_to_response(template, data, context_instance=RequestContext(request))
 
 @login_required
@@ -159,4 +165,18 @@ def load_place_form(request):
 	data = {'title' : title}
 	template = 'stores/places/partials/_place_form.html'
 	return render_to_response(template, data, context_instance=RequestContext(request))
+
+def load_products(request):
+	template = "_products_table.html"
+	pk_store = request.GET.get('store', None)
+	pk_place = request.GET.get('place', None)
+	pk_category = request.GET.get('category', None)
+	products = Product.objects.all()
+	if pk_place is not None:
+		products.filter(place_has_product__localization__pk__exact=pk_place)
+	else:
+		products.filter(place_has_product__store__pk__exact=pk_store)
+	# TODO los productos que pertenezcan a categorias hijas deberian ser mostrados tambien
+	products.filter(categories__category__pk__exact=pk_category)
+	return render_to_response(template, {products : products}, context_instance=RequestContext(request))
 	

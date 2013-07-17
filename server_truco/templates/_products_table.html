@@ -1,0 +1,17 @@
+{% load i18n %}
+<table id="table_products" class="bootstrap-datatable datatable table table-striped table-bordered">
+        <thead>
+        <th>{% trans "Name" %}</th>
+        <th>{% trans "Brand" %}</th>
+        <th>{% trans "Amount" %}</th>
+        </thead>
+        <tbody>
+        {% for p in products %}
+        <tr>
+        <td>{{p.name}}</td>
+        <td>{{p.brand.name}}</td>
+        <td>{{p.size_amount}} {{p.size_type}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+</table>
