@@ -154,6 +154,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
+    'django_admin_bootstrapped',
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
@@ -161,13 +162,6 @@ INSTALLED_APPS = (
     'registration',
     'app',
     'gunicorn',
-
-    #fluent dashboard admin
-    'fluent_dashboard',
-    'admin_tools',     # for staticfiles in Django 1.3
-    'admin_tools.theming',
-    'admin_tools.menu',
-    'admin_tools.dashboard',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -203,47 +197,3 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'backends.MyCustomBackend',
 )
-
-# FLUENT DASHBOARD CONFIGURATION
-ADMIN_TOOLS_THEMING_CSS = 'css/admin_tools_theming.css'
-ADMIN_TOOLS_INDEX_DASHBOARD = 'fluent_dashboard.dashboard.FluentIndexDashboard'
-ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'fluent_dashboard.dashboard.FluentAppIndexDashboard'
-ADMIN_TOOLS_MENU = 'fluent_dashboard.menu.FluentMenu'
-
-
-FLUENT_DASHBOARD_ICON_THEME = 'oxygen'
-
-#FLUENT_DASHBOARD_APP_ICONS = {
-#    'cms/page': 'internet-web-browser.png',
-#    'auth/user':  'system-users.png',
-#    'auth/group': 'resource-group.png',
-#    'sites/site': 'applications-internet.png',
-#    'google_analytics/analytics': 'view-statistics.png',
-#    'registration/registrationprofile': 'list-add-user.png'
-#}
-
-#FLUENT_DASHBOARD_DEFAULT_ICON = 'unknown.png'
-
-FLUENT_DASHBOARD_APP_GROUPS = (
-    (_('CMS'), {
-        'models': (
-            'app.models.Category',
-        ),
-        'module': 'CmsAppIconList',
-        'collapsible': False,
-    }),
-
-    (_('Administration'), {
-        'models': (
-            'django.contrib.auth.*',
-            #'django.contrib.sites.*',
-            'google_analytics.*',
-            'registration.*',
-        ),
-    }),                                        
-)
-
-
-FLUENT_DASHBOARD_APP_ICONS = {
-    'app/category': "images/admin/admin_configuration.png",
-}

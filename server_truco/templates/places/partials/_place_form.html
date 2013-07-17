@@ -1,0 +1,100 @@
+{% load i18n %} 
+<script>
+$(function(){
+	$('#province.chosen').data("placeholder","Selecciona una provincia").chosen();
+	$('#province.chosen').chosen().change(
+		function(){
+			console.info("CAMBIO-> llamamos a {% url get_cities %}");
+			val = $('#province.chosen').val();
+			if (val > 0){
+				$.get({
+					url : '/ajax/get_cities/',
+					data: {id_province : val },
+					datatype : 'json',
+					success: function(data){console.info(data);}
+					
+				}).done(function(data){console.info("holaaa"+data);});
+			}
+		}
+	);
+
+	$('#form_place').submit(function(e){
+		//Do openstreetmap request:
+		e.preventDefault();
+		error_message = "";
+		//var request ="http://nominatim.openstreetmap.org/search?";
+		var number = $('#id_direction_number').val();
+		var address = $('#id_direction').val();
+		var city = $('#id_city').val();
+		var country = 'españa';
+		var compossed_address = number+" "+address+" ,"+city+","+country;
+		console.info("Direccion a buscar: "+compossed_address);
+		if (number.split(' ').length >1){
+			show_message($('.modal-body'),"Introduzca un número de calle correcto",'error');
+			return;
+		}
+			var geocoder = new google.maps.Geocoder(); 
+			geocoder.geocode({
+					address : compossed_address, 
+				},
+			    function(results, status) {
+			    	if (status == google.maps.GeocoderStatus.OK) {
+	        			var lat = results[0].geometry.location.lat();
+	        			var lng = results[0].geometry.location.lng();
+	        			operations ="<a class='btn'><i class='icon-edit'></i></a><a class='btn'><i class='icon-trash'></i></a>";
+	        			data_place = [address,number,city,lat,lng,operations];
+	        			//TODO: add a random id
+	        			id = 1;
+	        			addrow($('#table_locations').dataTable(), id, data_place);
+				    	if ( results[0].types[0] != 'street_address'){
+							show_message($('.modal-body'),"No se ha encontrado una dirección asociada",'error');
+				    		return;
+				    	}
+			    	}
+			    	else{
+			    		error_message = "No se ha encontrado una dirección asociada"+status;			    		
+						$('.modal-body').noty({text: error_message,type:'error'});
+			    	}
+			    }
+			);
+			$('#modal_add_place').modal('hide');
+	});
+});
+</script>
+<form id='form_place'>
+	{% csrf_token %}
+	<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal">×</button>
+	<h3 class='center'>{{title}}</h3>
+	</div>
+	<div class="modal-body">
+	<div class='error_messages'></div>
+	  	<div class="control-group">
+			<label class="control-label" for="description">{% trans "Dirección"%}</label>
+			<div class='controls'>
+				<input type='text' name="direction" id="id_direction" placeholder="Dirección" value='{{place.direction}}' required /><span class='error'></span>
+				<input type='text' size='4' name="direction" id="id_direction_number" placeholder="nº" value='{{place.direction_number}}' /><span class='error'></span>
+	  		</div>
+	  	</div> 	  	
+	  	<div class='control-group'><!-- provinces -->
+			<label class="control-label" for="city">{% trans "Provincia"%}</label><span class='error'></span>	  	
+			<div class='controls'>
+				<select name="province" id="province" class='chosen'>				 
+				{% for p in provinces%}
+				<option value={{p.value}}>{{p.name}}</option>
+				{% endfor%}
+				</select>
+	  		</div>
+	  	</div>
+	  	<div class="control-group">
+			<label class="control-label" for="city">{% trans "Ciudad"%}</label><span class='error'></span>
+			<div class='controls'>
+				<input type='text' name="city" id="id_city" placeholder="Ciudad" value='{{place.city}}' required />
+	  		</div>
+	  	</div> 
+	</div>
+	<div class="modal-footer center">
+		<button class="btn btn-info" type="submit">{% trans "Guardar"%}</button>
+		<a href="#" class="btn btn-warning" data-dismiss="modal">{% trans "CANCELAR"%}</a>
+	</div>
+</form>

@@ -13,7 +13,10 @@ from app.forms import StoreForm
 from django.utils.simplejson import dumps
 from django.utils.translation import ugettext as _
 from django.template.defaulttags import ifequal
+import json
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
 def login_view(request):
 	if request.POST:
 		username = request.POST['username']
@@ -27,22 +30,44 @@ def login_view(request):
 				if 'remember_me' in request.POST:
 					request.session.set_expiry(1209600)
 				login(request, user)
-				return redirect('home')
+				if request.POST.has_key('mobile') and request.POST['mobile'] == 'True':
+					if 'next' in request.POST:
+						return HttpResponseRedirect(request.POST['next'])
+					else :
+						result = {'result':'Ok'}
+						response_json = json.dumps(result)
+						response = HttpResponse(response_json, mimetype="application/json")
+						response['Cache-Control'] = 'no-cache' 
+						return response
+				else:
+					return redirect('home')
 				# Redirect to a success page.
 			else:
 				# Return a 'disabled account' error message
-				messages.add_message(request, messages.ERROR, _(u'Cuenta' +
+				if request.POST.has_key('mobile') and request.POST['mobile'] == 'True':
+					result = {'result':'Fail','message':'Cuenta desactivada'}
+					response_json = json.dumps(result)
+					response = HttpResponse(response_json, mimetype="application/json")
+					response['Cache-Control'] = 'no-cache' 
+					return response	
+				else:			
+					messages.add_message(request, messages.ERROR, _(u'Cuenta' +
 				+'desactivada.'))
 		else:
-			# Return an 'invalid login' error message.
-
-			messages.add_message(request, messages.ERROR,
+		# Return an 'invalid login' error message.
+			if request.POST.has_key('mobile') and request.POST['mobile'] == 'True':
+				result = {'result':'Fail','message':'Usuario o clave incorrecto'}
+				response_json = json.dumps(result)
+				response = HttpResponse(response_json, mimetype="application/json")
+				response['Cache-Control'] = 'no-cache' 
+				return response
+			else:
+				messages.add_message(request, messages.ERROR,
 								 _(u'El Usuario o Password no es válido.'))
 			return render_to_response('registration/login.html',
 							context_instance=RequestContext(request))
 	return render_to_response('registration/login.html',
 							context_instance=RequestContext(request))		
-		# Return an 'invalid login' error message.
 
 
 def home(request):
@@ -81,6 +106,8 @@ def store_form(request,id_store=None):
 	"""
 	if id_store:
 		s = Store.objects.get(pk=id_store)
+		#GET Places
+		places = Place.objects.filter(store__pk__exact=id_store)
 	else:
 		s=Store()
 	if request.method == 'POST': # If the form has been submitted...
@@ -94,6 +121,12 @@ def store_form(request,id_store=None):
 			if s:
 				manager.store_set.add(s)
 			more = request.POST.get('continue_inserting',False)
+			#TODO: save places
+			places = []
+			for field in form.fields:
+				if field.starts_with('place_'):
+					places.append(form.fields[field])
+			save_locations(s,places)
 			if more == 'True' :
 				redirection = "/store/new"
 			else:
@@ -102,9 +135,11 @@ def store_form(request,id_store=None):
 	else:
 		form = StoreForm(instance=s)
 	template='stores/store_form.html'
+	places = {}
 	return render(request, template, {
 		'form': form,
 		'pk' : id_store,
+		'places' : places
 	})
 
 @login_required
@@ -145,18 +180,54 @@ def products(request, id_store, id_place = None):
 	return render_to_response(template, data, context_instance=RequestContext(request))
 
 @login_required
-def save_location(request):
+def save_locations(store,places):
 	"""
-	Save a location in a edited store. 
+	Save a location (or a list) in a edited store. 
 	For new store it come from store_form
 	"""
-	pass
+	for p in places:
+		"""
+			split values.
+			address;number;country;province;city;lat;lng;
+		"""
+		pieces = p.split(';')
+		address = pieces[0]
+		number = pieces [1]
+		city = pieces [2]
+		lat = pieces[3]
+		lng = pieces[4]
+		Place.city
+		Place.address=pieces[0]
 
 def load_place_form(request):
 	place = request.GET.get('place',None)
+	provinces_array = []
 	if place is None or place is 'undefined':
 		title = _(u'Nueva localización')
-	data = {'title' : title}
-	template = 'stores/places/partials/_place_form.html'
+		provinces = Province.objects.all()
+		for p in provinces:
+			provinces_array.append({'name':p.name,'value' :p.id})
+	else:
+		title = _(u'Edita localización')
+	data = {'title' : title,'provinces':provinces_array}
+	template = 'places/partials/_place_form.html'
 	return render_to_response(template, data, context_instance=RequestContext(request))
-	
+
+
+def get_countries(request):
+	"""
+		Load countries 
+	"""
+	countries = serializers.serialize("json",Country.objects.all())
+	return HttpResponse(countries, mimetype="text/plain") 	
+
+def get_provinces(request):
+	idcountry=request.GET.get('idcountry',None)
+	provinces = serializers.serialize("json",Province.objects.filter(country__id__exact=idcountry))
+	return HttpResponse(provinces, mimetype="text/plain") 	
+
+
+def get_cities(request):
+	idprovince=request.GET.get('idprovince',None)
+	cities = serializers.serialize("json",Province.objects.filter(province__id__exact=idprovince))
+	return HttpResponse(cities, mimetype="text/plain") 	

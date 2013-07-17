@@ -4,43 +4,56 @@
 {% block title %}{% trans "Store form" %}{% endblock %}
 
 {% block extrascript %}
+
 <script type="text/javascript"
+
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCB2zZMe_TBq6GV2DQskbuh1t8_KyQZH-g&sensor=false&libraries=places">
 </script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
 $(function(){
 var map=$('#map_localizations');
-	$('#show_map').click(function(){
+	$('.show_map').click(function(){
 		if ($(this).hasClass('create'))
 		{
-			console.info("crear mapa");
 			$(this).removeClass('create');
         	$('#map_localizations').gmap3(
         	{ 
          		map:
           		{
-          			options:{
-            		center:[46.578498,2.457275],
-                	zoom: 8
-             		}
+	          		options:{
+	            		center:[google.loader.ClientLocation.latitude,google.loader.ClientLocation.longitude],
+	                	zoom: 7,
+	             	}
 			     }
 			 });
-		}
-		console.info("show map clicked");
-		$('#div_localizations').toggle();
-		$('#table_locations').dataTable();
-	});
+		}     	
+	});	
 	$('#saveAndContinue').click(function(){
 		$('#continue_inserting').val('True');
-		$('store_form').submit();	
+		submit_form();
+	});
+	
+	$('#save').click(function(){
+		submit_form();
 	});
 });
+function submit_form(e){
+	$.each($('#table_locations tbody tr.dirty'),function(){
+		value = "";
+		$.each($(this).find('td'),function(){
+			value = value + this.text()+";";
+		});
+		$('#hidden_fields').append("<input type='hidden' name='place_'"+ this.id +" value='"+value+"' />");
+		console.info("Fila "+value);
+		e.prevent_default();
+	});
+}
+
 function show_modal_form_place(id){
-	$('#modal_add_place').modal('show');
 	console.info(id);
 	var params = [];
 	{% if pk %}
-		console.info("form.id.value exists");
 		params.push('id_store={{pk}}');
 	{% endif %}
 	if (id != undefined){//create
@@ -54,9 +67,12 @@ function show_modal_form_place(id){
 		}
 		param = param + params[params.length -1]
 	}
-	console.info(param);
-	$('#modal_add_place').load('{% url load_place_form %}'+param);
-	
+	load_modal($('#modal_add_place'),param,'{% url load_place_form %}');
+	if ($('#modal_add_place').hasClass('create')){
+		//Load all Countries. If countries.len == 1, load all provinces
+		console.info("chosen...");
+		$('#modal_add_place').removeClass('create')
+	}	
 }
 //Simulating minimize box-content
 var $target = $('.box-content');
@@ -90,7 +106,9 @@ $target.slideToggle();
 	<div class="row-fluid sortable">
 		<form id='store_form' class="form-horizontal span12 mine" action="." method="post">
 			{% csrf_token %}
+			<div id='hidden_fields'>
 			<input type='hidden' value='False' name='continue_inserting' id='continue_inserting'/>
+			</div>
 			<div class="control-group">
 				<label class="control-label" for="name">{% trans "Nombre"%}*:</label>
 				<div class="controls">
@@ -107,8 +125,7 @@ $target.slideToggle();
 	    			<textarea name="description" id="id_description" placeholder="descripción" class="autogrow">{{form.description.value}}</textarea>
 	  			</div>
 	  		</div>
-	  		<div class ='row-fluid'>
-				<div class="box span6">
+	  		<div class ='box row-fluid'>
 					<div class="box-header well" data-original-title>
 						<h2>{% trans "Tabla localizaciones"%}</h2>
 						<div class="box-icon">
@@ -117,41 +134,40 @@ $target.slideToggle();
 						</div>
 					</div>
 					<div class="box-content">	  	  				 
-				  		<div id='table_localizations'  style='height:250px;' class='row-fluid'>
+				  		<div id='table_localizations'  style='height:250px;'>
 					  		<table id='table_locations' class='table datatable'>
 					  			<thead>
 					  				<tr>
 					  					<th>Dirección</th>
-					  					<th>CP</th>
-					  					<th>lat</th>
-					  					<th>lng</th>
-					  					<th>País</th>
-					  					<th>Ciudad</th>	  					
+					  					<th>Número</th>
+					  					<th>Ciudad</th>
+					  					<th>lat(ONLY BETA)</th>
+					  					<th>lng(ONLY BETA)</th>
+					  					<th>Operaciones</th>
 					  				</tr>
 					  			</thead>
 					  			<tbody></tbody>
 					  		</table>		  			
 				  		</div>
 			  		</div>
-	  			</div>
-				<div class="box span6">
+	  		</div>
+	  		<div class ='box row-fluid'>
 					<div class="box-header well" data-original-title>
-						<h2>{% trans "Añadir localizaciones"%}</h2>
+						<h2>{% trans "Ver localizaciones en el mapa"%}</h2>
 						<div class="box-icon">
-							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-down"></i></a>
+							<a href="#" class="btn btn-minimize btn-round show_map create"><i class="icon-chevron-down"></i></a>
 						</div>
 					</div>
 					<div class="box-content">	  	  				
 				  			<div id='map_localizations'  style='height:250px;' class='row-fluid'></div>
 			  		</div>
-		  		</div>
 			</div>
 			<div  class='row-fluid center'>
-				<button type="submit" class="btn btn-large btn-primary">Guardar</button>
+				<button type="submit" class="btn btn-large btn-primary" id="save">Guardar</button>
 				<button type="submit" class="btn btn-large btn-info" id='saveAndContinue'>{% trans "Guardar y continuar"%}</button>
 			</div>
 		</form>
 	</div>
 	<!--Popups or modals -->
-	<div id='modal_add_place' class="modal hide"></div>
+	<div id='modal_add_place' class="modal hide create"></div>
 {% endblock %}
