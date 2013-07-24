@@ -154,6 +154,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
+    'django_admin_bootstrapped',
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
@@ -161,13 +162,6 @@ INSTALLED_APPS = (
     'registration',
     'core',
     'gunicorn',
-
-    #fluent dashboard admin
-    'fluent_dashboard',
-    'admin_tools',     # for staticfiles in Django 1.3
-    'admin_tools.theming',
-    'admin_tools.menu',
-    'admin_tools.dashboard',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -202,6 +196,7 @@ LOGGING = {
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'backends.MyCustomBackend',
+<<<<<<< HEAD
 )
 
 # FLUENT DASHBOARD CONFIGURATION
@@ -247,3 +242,6 @@ FLUENT_DASHBOARD_APP_GROUPS = (
 FLUENT_DASHBOARD_APP_ICONS = {
     'core/category': "images/admin/admin_configuration.png",
 }
+=======
+)
+>>>>>>> c25e0ae14daa420c9972921bef82ef19cbf4900e

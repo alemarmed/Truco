@@ -8,13 +8,13 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Views:
     url(r'^$', 'app.views.home', name='home'),
+    url(r'^ajax/get_cities/$', 'app.views.get_cities', name='get_cities'),    
     url(r'^login/$', 'app.views.login_view', name='login'),
     url(r'^my-stores/$', "app.views.list_stores", name="list_stores"),
     url(r'^store/edit/(?P<id_store>\w+)/', "app.views.store_form", name="store_form"),
     url(r'^store/new/$', "app.views.store_form", name="new_store"),
     url(r'^store/places_form/$', "app.views.load_place_form", name="load_place_form"),    
     url(r'^login/$', 'app.views.login_view', name='login'),
-    url(r'^store/save_location','app.views.save_location',name='save_location'),
     url(r'^store/delete/$','app.views.delete_store',name='delete_store'),
     url(r'^store/(?P<id_store>\w+)/products','app.views.products',name='store_products'),
     url(r'^store/(?P<id_store>\w+)/place/(?P<id_place>\w+)/products','app.views.products',name='place_products'),
@@ -29,6 +29,8 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('registration.backends.customManager.urls')),
     url(r'^admintools/', include('admin_tools.urls')),
+    
+    url(r'^api/csrf','app.api_mobile.get_csrf'),
 )
 
 # Serving statics in DEVELOPMENT
