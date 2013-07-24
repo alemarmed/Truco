@@ -5,11 +5,11 @@ from django.http import HttpResponse, HttpResponseRedirect,\
 from django.shortcuts import render, get_object_or_404, render_to_response,\
 	redirect
 from django.core import serializers
-from app.models import *
+from core.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from app.forms import StoreForm
+from core.forms import StoreForm
 from django.utils.simplejson import dumps
 from django.utils.translation import ugettext as _
 from django.template.defaulttags import ifequal

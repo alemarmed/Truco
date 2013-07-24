@@ -1,6 +1,5 @@
 # import the User object
 from django.contrib.auth.models import User
-from app.models import Manager
 
 # Name my backend 'MyCustomBackend'
 class MyCustomBackend:
@@ -12,7 +11,7 @@ class MyCustomBackend:
 
         try:
             # Try to find a user matching your username
-            my_user = Manager.objects.get(user__username=username)
+            my_user = User.objects.get(username=username)
             if my_user.user.check_password(password):
                 return my_user.user
             else:

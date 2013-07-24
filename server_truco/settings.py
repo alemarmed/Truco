@@ -159,7 +159,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'south',
     'registration',
-    'app',
+    'core',
     'gunicorn',
 
     #fluent dashboard admin
@@ -227,7 +227,7 @@ FLUENT_DASHBOARD_ICON_THEME = 'oxygen'
 FLUENT_DASHBOARD_APP_GROUPS = (
     (_('CMS'), {
         'models': (
-            'app.models.Category',
+            'core.models.Category',
         ),
         'module': 'CmsAppIconList',
         'collapsible': False,
@@ -245,5 +245,5 @@ FLUENT_DASHBOARD_APP_GROUPS = (
 
 
 FLUENT_DASHBOARD_APP_ICONS = {
-    'app/category': "images/admin/admin_configuration.png",
+    'core/category': "images/admin/admin_configuration.png",
 }
