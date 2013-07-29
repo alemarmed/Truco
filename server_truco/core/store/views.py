@@ -1,5 +1,160 @@
+# -*- coding: utf-8 -*-
 '''
 Created on 23/07/2013
 
 @author: alejandro
 '''
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def create_store (request):
+    '''
+    Create a new store
+    '''
+    pass
+
+
+@login_required
+def add_location (request, idStore):
+    '''
+    Crea una localización para una tienda, las coordenadas se calculan en el frontend 
+    '''
+    pass
+
+
+@login_required
+def create_product (request, idCategory):
+    '''
+    Ojo, las categorías tiene atributos, por tanto no todos los productos se crean con el mismo formulario
+    '''
+    pass
+
+
+@login_required
+def create_discount (request):
+    '''
+    Fecha de validez y expiración
+    '''
+    pass
+
+
+@login_required
+def add_discount (request):
+    '''
+    Asocia un descuento con uno/varios productos del usuario
+    '''
+    pass
+
+
+@login_required
+def remove_discount (request):
+    '''
+    Elimina un descuento para una seleccion de productos
+    '''
+    pass
+
+
+@login_required
+def list_products (request):
+    '''
+    Listar los productos, filtro por localización/es, tienda, paginacion, categoria, marca...
+    '''
+    pass
+
+
+@login_required
+def list_stores (request):
+    '''
+    Listado basico de tiendas
+    '''
+    pass
+
+
+@login_required
+def list_locations (request, idStore):
+    '''
+    Listado de las localizaciones de una tienda
+    '''
+    pass
+
+
+@login_required
+def delete_store (request):
+    '''
+    Borra una tienda, por tanto sus localizaciones
+    '''
+    pass
+
+
+@login_required
+def delete_location (request, idStore):
+    '''
+    Quita localizaciones de una tienda
+    '''
+    pass
+
+
+@login_required
+def delete_discount (request):
+    '''
+    Borrar un descuento, hay que quitar las asociaciones que tenga con productos
+    '''
+    pass
+
+
+@login_required
+def delete_product (request):
+    '''
+    '''
+    pass
+
+
+@login_required
+def edit_store (request):
+    '''
+    '''
+    pass
+
+
+@login_required
+def edit_location (request):
+    '''
+    '''
+    pass
+
+
+@login_required
+def edit_discount (request):
+    '''
+    '''
+    pass
+
+
+@login_required
+def edit_product (request):
+    '''
+    '''
+    pass
+
+
+@login_required
+def get_categories (request, parent_category = None):
+    '''
+    Obtener las cateogorías hijas de una dada, no recursivo
+    '''
+    pass
+
+
+@login_required
+def get_brands (request):
+    '''
+    '''
+    pass
+
+
+@login_required
+def get_category_attributes (request, idCategory):
+    '''
+    Obtener los atributos propios y heredados de una categoría
+    '''
+    pass
