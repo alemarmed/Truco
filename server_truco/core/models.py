@@ -14,9 +14,27 @@ class Category(models.Model):
 	visible = models.BooleanField(default = True)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
+	
 	def __unicode__(self):
 		return "Category: "+self.name+" "+str(self.pk)
+	
+ATTR_TYPES = ( 	# TODO traducir esto
+	('text', _(u'Texto')),
+	('select', _(u'Selección')),
+	('boolean',_(u'Boolean')),
+	('numeric',_(u'Numero'))
+)
 
+class Category_attr(models.Model):
+	"""
+	Las categorías tienen diferentes atributos que se añadirán dinámicamente al formulario de los productos
+	asignados a esta categoría (o sus hijos)
+	"""
+	name = models.CharField(max_length=256, verbose_name=_(u'Nombre'))
+	type = models.CharField(max_length=256,verbose_name=_(u'Tipo de atributo'),choices=ATTR_TYPES)
+	value = models.CharField(max_length=256,verbose_name=_(u'Valor/es'))
+	is_required = models.BooleanField(default=True, verbose_name=_(u"Atributo requerido"))
+	
 class Consumer(models.Model):
 	"""
 	Usuario de la aplicacion movil
@@ -25,7 +43,7 @@ class Consumer(models.Model):
 	birthday = models.DateField(null=True)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
-	token = models.CharField(null=True)
+	token = models.CharField(max_length=256,null=True)
 	token_expiration = models.DateTimeField(null=True)
 	def __unicode__(self):
 		return "Consumer: "+self.user.username+" "+str(self.pk)
@@ -49,6 +67,10 @@ class Store(models.Model):
 	"""
 	name = models.CharField(max_length = 256, help_text =_(u'Name of Store'), verbose_name =_(u'Name'))
 	description = models.TextField(null = True, help_text =_(u'Description'), verbose_name =_(u'Description'))
+	"""
+	Realmente es necesario un many to many aquí? se podría sacar y crear una relación de jerarquía
+	de tienda en otro módulo aparte
+	"""
 	owners = models.ManyToManyField(Manager, verbose_name = _(u'Store owners'))
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
@@ -66,18 +88,17 @@ class Brand(models.Model):
 	def __unicode__(self):
 		return "Brand: "+self.name+" "+str(self.pk)
 
-
+"""
+20132907-> deprecated por category_attr
 class Tag(models.Model):
-	"""
 	Usado para añadir atributos a productos, (p.e. sin gluten, desnatado, ecologico)
-	"""
 	name = models.CharField(max_length=256, verbose_name =_(u'Tag'))
 	description = models.TextField(null = True, verbose_name =_(u'Description'))
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
 	def __unicode__(self):
 		return "Tag: "+self.name+" "+str(self.pk)
-
+"""
 
 SIZE_TYPES = ( 	# TODO traducir esto
 	('mg', _(u'mili gramos')),
@@ -97,7 +118,7 @@ class Product(models.Model):
 	name = models.CharField(max_length = 256, help_text =_(u'Name of Product'), verbose_name =_(u'Name'))
 	description = models.TextField(null = True, verbose_name =_(u'Description'))
 	categories = models.ManyToManyField(Category, verbose_name =_(u'Product categories'))
-	tags = models.ManyToManyField(Tag, verbose_name = _(u'Product attributes'))
+	#tags = models.ManyToManyField(Tag, verbose_name = _(u'Product attributes'))
 	brand = models.ForeignKey(Brand, null = True)
 	size_type = models.CharField(max_length=2, choices=SIZE_TYPES, null = True)
 	size_amount = models.DecimalField(null = True, max_digits=10,decimal_places=2,verbose_name=_(u'Amount'))
@@ -107,6 +128,7 @@ class Product(models.Model):
 		return "Product: "+self.name+" "+self.brand.name+" "+str(self.pk)
 
 
+
 class Virtual_product(models.Model):
 	"""
 	Descripcion de un producto deseado por un usuario, no tiene que corresponder con ningun producto concreto
@@ -114,7 +136,7 @@ class Virtual_product(models.Model):
 	name = models.CharField(max_length = 256, help_text =_(u'Name of Product'), verbose_name =_(u'Name'))
 	description = models.TextField(null =True, help_text =_(u'Description'), verbose_name =_(u'Description'))
 	categories = models.ForeignKey(Category, verbose_name =_(u'Product category'))
-	tags = models.ManyToManyField(Tag, verbose_name = _(u'Product attributes'))
+	#tags = models.ManyToManyField(Tag, verbose_name = _(u'Product attributes'))
 	brand = models.ForeignKey(Brand, null = True)
 	size_type = models.CharField(null = True, max_length=2, choices=SIZE_TYPES)
 	size_amount = models.DecimalField(null = True, max_digits=10,decimal_places=2,verbose_name=_(u'Amount'))
@@ -157,7 +179,10 @@ class List(models.Model):
 	name = models.CharField(max_length=256, help_text=_(u'Name of Product'),verbose_name=_(u'Name'))
 	description = models.TextField(null = True, help_text =_(u'Description'), verbose_name =_(u'Description'))
 	owner = models.ForeignKey(Consumer, related_name='my_lists')
-	shared_with = models.ManyToManyField(Consumer, related_name="shared_lists")
+	"""
+	Sacarlo en otro módulo para tener más opciones?
+	"""
+	#shared_with = models.ManyToManyField(Consumer, related_name="shared_lists")
 	routed = models.BooleanField(default = False)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
@@ -170,7 +195,13 @@ class List_item(models.Model):
 	Elemento de una lista de la compra, puede ser un producto concreto o virtual.
 	"""
 	parent_list = models.ForeignKey(List)
+	"""
+	Si la lista se hace para una compra localizada, utilizamos productos reales
+	"""
 	product = models.ForeignKey(Product, null = True)
+	"""
+	Si la lista no está localizada, se le puede ofrecer una cierta flexibilidad
+	"""
 	vproduct = models.ForeignKey(Virtual_product, null = True)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
@@ -200,15 +231,17 @@ class Place(models.Model):
 		return "Place: "+str(self.lat)+","+str(self.lng)
 
 
+OFFER_TYPES = ( # TODO traducir esto
+	('BT', _(u'Paga X Llevate Y')),
+	('PD', _(u'Descuento del X%')),
+	('UD', _(u'Unidad X al Y%')),
+)
+	
+	
 class Offer(models.Model):
 	"""
 	Representa una oferta o descuento aplicado al precio de un producto
 	"""
-	OFFER_TYPES = ( # TODO traducir esto
-		('BT', _(u'Paga X Llevate Y')),
-		('PD', _(u'Descuento del X%')),
-		('UD', _(u'Unidad X al Y%')),
-	)
 	name = models.CharField(max_length = 256, help_text =_(u'Name'), verbose_name =_(u'Name'))
 	text  = models.CharField(null = True, max_length = 256, help_text =_(u'Text'), verbose_name =_(u'Text'))
 	date_from = models.DateField()

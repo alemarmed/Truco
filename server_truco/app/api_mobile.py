@@ -3,7 +3,7 @@ Created on 01/07/2013
 
 @author: kamuisaeba
 '''
-from app.models import Consumer
+from core.models import Consumer
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 

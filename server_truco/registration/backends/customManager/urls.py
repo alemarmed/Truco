@@ -23,7 +23,7 @@ from django.views.generic import TemplateView
 
 from registration.views import activate
 from registration.views import register
-from app.forms import MyRegistrationForm
+from core.forms import MyRegistrationForm
 from django.views.generic.simple import direct_to_template
 
 

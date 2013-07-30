@@ -5,7 +5,7 @@ from django.contrib.sites.models import Site
 from registration import signals
 from registration.forms import RegistrationForm
 from registration.models import RegistrationProfile
-from app.models import Manager
+from core.models import Manager
 
 class DefaultBackend(object):
     """

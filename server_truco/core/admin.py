@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from app.models import *
+from core.models import *
 
 class ProductAdmin(admin.ModelAdmin):
     pass
@@ -30,11 +30,6 @@ admin.site.register(Store, StoreAdmin)
 class BrandAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Brand, BrandAdmin)
-
-
-class TagAdmin(admin.ModelAdmin):
-    pass
-admin.site.register(Tag, TagAdmin)
 
 
 class VirtualProductAdmin(admin.ModelAdmin):

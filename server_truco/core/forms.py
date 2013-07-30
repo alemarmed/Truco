@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django import forms
 from registration.forms import RegistrationForm
 from django.utils.translation import ugettext_lazy as _
-from app.models import *
+from core.models import *
 from django.forms.widgets import Widget, Textarea
 
 

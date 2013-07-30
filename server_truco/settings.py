@@ -120,6 +120,7 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     PROJECT_ROOT + '/templates',
+    PROJECT_ROOT + '/core/templates'
 )
 
 
@@ -158,10 +159,10 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'south',
     'registration',
     'core',
     'gunicorn',
+    'south',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -196,52 +197,4 @@ LOGGING = {
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'backends.MyCustomBackend',
-<<<<<<< HEAD
 )
-
-# FLUENT DASHBOARD CONFIGURATION
-ADMIN_TOOLS_THEMING_CSS = 'css/admin_tools_theming.css'
-ADMIN_TOOLS_INDEX_DASHBOARD = 'fluent_dashboard.dashboard.FluentIndexDashboard'
-ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'fluent_dashboard.dashboard.FluentAppIndexDashboard'
-ADMIN_TOOLS_MENU = 'fluent_dashboard.menu.FluentMenu'
-
-
-FLUENT_DASHBOARD_ICON_THEME = 'oxygen'
-
-#FLUENT_DASHBOARD_APP_ICONS = {
-#    'cms/page': 'internet-web-browser.png',
-#    'auth/user':  'system-users.png',
-#    'auth/group': 'resource-group.png',
-#    'sites/site': 'applications-internet.png',
-#    'google_analytics/analytics': 'view-statistics.png',
-#    'registration/registrationprofile': 'list-add-user.png'
-#}
-
-#FLUENT_DASHBOARD_DEFAULT_ICON = 'unknown.png'
-
-FLUENT_DASHBOARD_APP_GROUPS = (
-    (_('CMS'), {
-        'models': (
-            'core.models.Category',
-        ),
-        'module': 'CmsAppIconList',
-        'collapsible': False,
-    }),
-
-    (_('Administration'), {
-        'models': (
-            'django.contrib.auth.*',
-            #'django.contrib.sites.*',
-            'google_analytics.*',
-            'registration.*',
-        ),
-    }),                                        
-)
-
-
-FLUENT_DASHBOARD_APP_ICONS = {
-    'core/category': "images/admin/admin_configuration.png",
-}
-=======
-)
->>>>>>> c25e0ae14daa420c9972921bef82ef19cbf4900e

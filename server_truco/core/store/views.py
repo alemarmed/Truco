@@ -5,13 +5,27 @@ Created on 23/07/2013
 @author: alejandro
 '''
 from django.contrib.auth.decorators import login_required
+from core.store.form import StoreForm
+from django.shortcuts import redirect, render_to_response
+from django.template.context import RequestContext
+from core.models import Manager
 
 @login_required
 def create_store (request):
     '''
     Create a new store
     '''
-    pass
+    template_name = "store.html"
+    form = StoreForm(request.POST or None)
+    if form.is_valid():
+        store = form.save()
+        current_manager = Manager.objects.get(user=request.user)
+        store.owners.add(current_manager)
+        store.save()
+        message="OK"
+    else:
+        message="nook"
+    return render_to_response(template_name,{'form':form,'message':message},context_instance=RequestContext(request))
 
 
 @login_required
