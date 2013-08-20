@@ -71,7 +71,7 @@ class Store(models.Model):
 	Realmente es necesario un many to many aquí? se podría sacar y crear una relación de jerarquía
 	de tienda en otro módulo aparte
 	"""
-	owners = models.ManyToManyField(Manager, verbose_name = _(u'Store owners'))
+	owner = models.ForeignKey(Manager, verbose_name = _(u'Store owners'))
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
 	def __unicode__(self):
@@ -117,7 +117,8 @@ class Product(models.Model):
 	"""
 	name = models.CharField(max_length = 256, help_text =_(u'Name of Product'), verbose_name =_(u'Name'))
 	description = models.TextField(null = True, verbose_name =_(u'Description'))
-	categories = models.ManyToManyField(Category, verbose_name =_(u'Product categories'))
+	categories = models.ForeignKey(Category, verbose_name =_(u'Product category'))
+	created_by = models.ForeignKey(Manager)
 	#tags = models.ManyToManyField(Tag, verbose_name = _(u'Product attributes'))
 	brand = models.ForeignKey(Brand, null = True)
 	size_type = models.CharField(max_length=2, choices=SIZE_TYPES, null = True)
@@ -246,6 +247,7 @@ class Offer(models.Model):
 	text  = models.CharField(null = True, max_length = 256, help_text =_(u'Text'), verbose_name =_(u'Text'))
 	date_from = models.DateField()
 	date_to = models.DateField()
+	manager = models.ForeignKey(Manager)
 	offer_type = models.CharField(max_length=2, choices=OFFER_TYPES)
 	x = models.DecimalField(null = True, max_digits=10,decimal_places=2,verbose_name=_(u'Amount'))
 	y = models.DecimalField(null = True, max_digits=10,decimal_places=2,verbose_name=_(u'Amount'))
@@ -255,16 +257,22 @@ class Offer(models.Model):
 		return "Offer: "+self.name+" "+str(self.pk)
 
 
+class Product_discount(models.Model):
+	offer = models.ForeignKey(Offer)
+	product = models.ForeignKey(Product)
+	#¿PLACE?
+	def __unicode__(self):
+		return "Product "+self.product.name+" has offer "+self.offer.name
+
 class Place_has_product(models.Model):
 	"""
 	Representa la venta de un producto en un lugar concreto con un precio
 	NOTA: localization o store deben ser nulos
 	"""
 	localization = models.ForeignKey(Place, null  = True)
-	store = models.ForeignKey(Store, null  = True)
+	store = models.ForeignKey(Store, null  = True)#Place ya tiene guardado store, pero es más fácil el borrado
 	product = models.ForeignKey(Product)
 	pvp = models.DecimalField(max_digits=10,decimal_places=2,verbose_name=_(u'Product PVP'))
-	offer = models.ForeignKey(Offer, null = True)
 	created_at = models.DateTimeField(auto_now_add = True)
 	updated_at = models.DateTimeField(auto_now = True)
 	def __unicode__(self):
@@ -276,4 +284,5 @@ class Place_has_product(models.Model):
 		# this can, of course, be made more generic
 		models.Model.save(self, force_insert, force_update)
 
-	
+#TODO: añadir usuarios a tiendas para que puedan modificar productos	
+#Simplificar modelo place y store y dejar sólo la localización como una tienda?

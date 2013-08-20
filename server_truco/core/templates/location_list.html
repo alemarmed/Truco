@@ -1,0 +1,13 @@
+{{message}}
+<ul>
+{% for location in locations%}
+<li>
+	<span>{{location.address}}</span>
+	<span><a href="/store/location/edit/{{location.store.pk}}">EDITAR</a></span>
+	<span><a href="/store/location/delete/?location={{store.pk}}">BORRAR</a></span>
+</li>
+{% empty%}
+<li>No existen resultados</li>
+{% endfor%}
+</ul>
+<a href="/store/location/new">Crear una nueva tienda</a>

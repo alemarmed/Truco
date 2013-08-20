@@ -7,19 +7,22 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Views:
-    url(r'^client/',include('truco.core.client.urls')),
-    url(r'^$', 'core.views.home', name='home'),
-    
+    #url(r'^client/',include('core.client.urls')),
+    url(r'^$', 'core.store.views.create_store', name='home'),
     #core
+    url(r'^stores/$',"core.store.views.list_stores", name="list_stores"),
     url(r'^store/new/$',"core.store.views.create_store", name="create_store"),
+    url(r'^store/edit/(?P<id_store>\w+)/', "core.store.views.create_store", name="edit_store"),
+    url(r'^store/delete/$','core.store.views.delete_store',name='delete_store'),
+    url(r'^store/location/add/$','core.store.views.add_location',name='add_location'),
+
+    
     url(r'^ajax/get_cities/$', 'core.views.get_cities', name='get_cities'),    
     url(r'^login/$', 'core.views.login_view', name='login'),
     url(r'^my-stores/$', "core.views.list_stores", name="list_stores"),
-    url(r'^store/edit/(?P<id_store>\w+)/', "core.views.store_form", name="store_form"),
     #url(r'^store/new/$', "core.views.store_form", name="new_store"),
     url(r'^store/places_form/$', "core.views.load_place_form", name="load_place_form"),    
     url(r'^login/$', 'core.views.login_view', name='login'),
-    url(r'^store/delete/$','core.views.delete_store',name='delete_store'),
     url(r'^store/(?P<id_store>\w+)/products','core.views.products',name='store_products'),
     url(r'^store/(?P<id_store>\w+)/place/(?P<id_place>\w+)/products','core.views.products',name='place_products'),
     # AJAX

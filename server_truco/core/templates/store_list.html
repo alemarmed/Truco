@@ -1,0 +1,13 @@
+{{message}}
+<ul>
+{% for store in stores%}
+<li>
+	<span>{{store.name}}</span>
+	<span><a href="/store/edit/{{store.pk}}">EDITAR</a></span>
+	<span><a href="/store/delete/?stores={{store.pk}}">BORRAR</a></span>
+</li>
+{% empty%}
+<li>No existen resultados</li>
+{% endfor%}
+</ul>
+<a href="/store/new/">Crear una nueva tienda</a>
